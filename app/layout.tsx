@@ -24,7 +24,23 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: "/icon.png",
-  }
+  },
+  openGraph: {
+    title: "Paperstery | Professional Book Publishing House",
+    description:
+      "Helping creatives and organizations produce world-class books.",
+    url: "https://paperstery.vercel.app",
+    siteName: "Paperstery",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Paperstery | Professional Book Publishing House",
+    description:
+      "Helping creatives and organizations produce world-class books.",
+    images: ["./opengraph-image.jpg"],
+  },
 };
 
 export default function RootLayout({
