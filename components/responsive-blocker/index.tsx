@@ -21,7 +21,7 @@ const ResponsiveBlocker = () => {
     return () => window.removeEventListener("resize", checkWidth);
   }, []);
 
-  if (!isLoading)
+  if (isLoading)
     return (
       <div>
         <div className="fixed inset-0 z-999 flex flex-col items-center justify-center bg-white p-6 text-center">
