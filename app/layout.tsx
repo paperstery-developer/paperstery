@@ -6,8 +6,7 @@ import { Footer } from "@/components/shared/Footer";
 import { marble, nobelUno } from "./fonts";
 
 import "./globals.css";
-import { FAQ } from "@/components/shared/FAQ";
-import ResponsiveBlocker from "@/components/responsive-blocker";
+// import ResponsiveBlocker from "@/components/responsive-blocker";
 
 export const metadata: Metadata = {
   title: "Paperstery | Professional Book Publishing House",
@@ -54,10 +53,9 @@ export default function RootLayout({
         className={`${marble.variable} ${nobelUno.variable} antialiased`}
         suppressHydrationWarning
       >
-        <ResponsiveBlocker />
+        {/* <ResponsiveBlocker /> */}
         <Header />
         {children}
-        <FAQ />
         <Footer />
       </body>
     </html>

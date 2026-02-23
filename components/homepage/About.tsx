@@ -1,10 +1,11 @@
-'use client'
-import { motion } from "motion/react";
+"use client";
 import { Medal } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import aboutImage from '@/assets/images/about.jpg';
+import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
+
+import { Button } from "@/components/ui/button";
+import aboutImage from "@/assets/images/about.jpg";
 
 export function About() {
   return (
@@ -38,6 +39,7 @@ export function About() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="flex flex-col justify-center items-center md:items-start md:justify-start"
           >
             <div className="inline-block px-4 py-1.5 rounded-full bg-white/80 border-white border mb-4">
               <span className="flex items-center text-sm text-primary font-medium gap-1.5">
@@ -46,19 +48,19 @@ export function About() {
               </span>
             </div>
 
-            <h2 className="mb-6 text-5xl! text-white">
+            <h2 className="mb-6 md:text-5xl! text-center md:text-left text-white">
               We do not just create books; we create legacies.
             </h2>
 
-            <p className="mb-4 text-white">
-              We believe in the metamorphosis of creativity: from dreams to stories, and from stories to legacies. Our entire work is thus centered on helping your ideas take shape and outlast even you!
+            <p className="mb-4 text-white text-center md:text-left">
+              We believe in the metamorphosis of creativity: from dreams to
+              stories, and from stories to legacies. Our entire work is thus
+              centered on helping your ideas take shape and outlast even you!
             </p>
 
-            <div className="flex flex-wrap gap-3 mb-8">
+            <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-8">
               <Button variant={"outline"} size={"lg"} asChild>
-                <Link href="/about">
-                  Read Our Story
-                </Link>
+                <Link href="/about">Read Our Story</Link>
               </Button>
             </div>
           </motion.div>

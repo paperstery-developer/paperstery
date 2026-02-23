@@ -46,7 +46,7 @@ export function Hero() {
           <Image
             src={library}
             alt="Library books with stairs"
-            className="w-full h-full object-cover opacity-10"
+            className="w-full h-full object-cover opacity-20"
             width={1079}
             height={1352}
           />
@@ -55,11 +55,11 @@ export function Hero() {
 
         {/* Floating Illustrations */}
         <motion.div
-          className="absolute top-12 right-[25%] opacity-10"
+          className="absolute top-30 right-[25%] opacity-10"
           animate={{ y: [0, -20, 0] }}
           transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
         >
-          <BookOpen className="w-32 h-32 text-primary" />
+          <BookOpen className="size-16 md:size-32 text-primary" />
         </motion.div>
 
         <motion.div
@@ -67,11 +67,11 @@ export function Hero() {
           animate={{ y: [0, 20, 0], rotate: [0, 5, 0] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         >
-          <Feather className="w-24 h-24 text-primary" />
+          <Feather className="size-16 md:size-24 text-primary" />
         </motion.div>
 
-        <div className="container mx-auto px-6 py-20 relative z-10 flex gap-12 justify-center items-center">
-          <div className="w-1/2 max-w-4xl mx-auto text-center md:text-left">
+        <div className="container px-6 pt-38 pb-20 relative z-10 flex gap-12 justify-center items-center mx-auto">
+          <div className="w-full max-w-[52rem] text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -87,13 +87,13 @@ export function Hero() {
               <h1 className="mb-6 text-primary">
                 Dare Your Dreams. Publish With Paperstery!
               </h1>
-              <p>
+              <p className="max-w-xl mx-auto">
                 We are an independent publishing house helping creatives,
                 professionals, and organizations transform stories into
                 world-class legacies.
               </p>
 
-              <div className="flex flex-wrap justify-center md:justify-start gap-4 mt-8">
+              <div className="flex flex-wrap justify-center gap-4 mt-8">
                 <Button
                   size="lg"
                   asChild
@@ -110,7 +110,7 @@ export function Hero() {
             initial={{ opacity: 0, x: 50, rotate: 2 }}
             animate={{ opacity: 1, x: 0, rotate: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-            className="w-1/2 flex items-center justify-center"
+            className="hidden w-1/2 items-center justify-center"
           >
             <Image
               src={hero}
@@ -133,7 +133,7 @@ export function Hero() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="mb-4 text-primary text-5xl!">Who We Cater To</h2>
+            <h2 className="mb-4 text-primary md:text-5xl!">Who We Cater To</h2>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">

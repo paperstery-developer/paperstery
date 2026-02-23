@@ -2,6 +2,7 @@ import { About } from "@/components/homepage/About";
 import { Blog } from "@/components/homepage/Blog";
 import { Hero } from "@/components/homepage/Hero";
 import { Services } from "@/components/homepage/Services";
+import { FAQ } from "@/components/shared/FAQ";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <About />
       <Services />
       <Blog />
+      <FAQ type="home" />
     </div>
   );
 }
