@@ -22,7 +22,7 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section
-      className="relative bg-center bg-cover bg-foreground/50 bg-blend-multiply flex justify-center h-[380px]"
+      className="relative bg-center bg-cover bg-foreground/50 bg-blend-multiply flex justify-center h-[380px] mt-18"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <motion.div

@@ -187,7 +187,7 @@ export function ContactPageSection() {
                       <div key={index}>
                         <div className="flex items-center gap-3 mb-4">
                           <div className="w-10 h-10 rounded-lg linear-primary flex items-center justify-center">
-                            <info.icon className="w-5 h-5 text-white" />
+                            <info.icon className="w-5 h-5 text-primary" />
                           </div>
                           <h4 className="text-lg">{info.title}</h4>
                         </div>
@@ -236,7 +236,7 @@ export function ContactPageSection() {
             </p>
           </motion.div>
 
-          <div className="flex gap-8 max-w-6xl mx-auto">
+          <div className="flex flex-col sm:flex-row gap-8 max-w-6xl mx-auto">
             {offices.map((office, index) => (
               <motion.div
                 key={index}

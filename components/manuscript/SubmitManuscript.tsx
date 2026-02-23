@@ -45,7 +45,7 @@ export function SubmitManuscript() {
           viewport={{ once: true }}
           className="max-w-3xl mx-auto"
         >
-          <div className="bg-background rounded-2xl p-8 md:p-12 shadow-xl border border-light-pbg-light-primary">
+          <div className="md:bg-background rounded-2xl md:p-12 md:shadow-xl md:border border-light-primary">
             <p className="text-primary flex items-center gap-1.5 italic mb-4 text-sm">
               <Info size={16} />
               Fields marked with asterisks (*) are required.
