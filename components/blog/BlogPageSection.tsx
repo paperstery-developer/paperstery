@@ -341,7 +341,7 @@ export function BlogPageSection() {
       </section>
 
       {/* Newsletter */}
-      <section className="py-20 bg-linear-to-br from-primary to-[#4a0099] text-white">
+      <section className="py-20 bg-light-primary/50">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -350,9 +350,9 @@ export function BlogPageSection() {
             viewport={{ once: true }}
             className="max-w-3xl mx-auto text-center"
           >
-            <BookOpen className="w-12 h-12 mx-auto mb-6 text-white" />
-            <h2 className="mb-4 text-white">Subscribe to Our Newsletter</h2>
-            <p className="text-lg text-white/90 mb-8">
+            <BookOpen className="w-12 h-12 mx-auto mb-6 text-primary" />
+            <h2 className="mb-4 text-primary">Subscribe to Our Newsletter</h2>
+            <p className="text-lg mb-8">
               Get the latest insights on writing, publishing, and creativity
               delivered directly to your inbox.
             </p>
@@ -361,17 +361,18 @@ export function BlogPageSection() {
               <Input
                 type="email"
                 placeholder="Enter your email address"
-                className="flex-1 bg-white border-white text-primary placeholder:text-gray-400"
+                className="sm:flex-1 bg-white border-white text-primary placeholder:text-gray-400"
               />
               <Button
                 size="lg"
-                className="bg-white text-primary hover:bg-white/90"
+                variant={'outline'}
+                className="bg-white text-primary hover:bg-white/90 border-primary/30 hover:border-primary"
               >
                 Subscribe
               </Button>
             </div>
 
-            <p className="text-xs text-white/70 mt-4">
+            <p className="text-xs text-primary mt-4">
               We respect your privacy. Unsubscribe at any time.
             </p>
           </motion.div>

@@ -7,9 +7,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { BadgeQuestionMark } from "lucide-react";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
-export function FAQ() {
-  const faqs = [
+export function FAQ({type = 'faqs'}: {type?: "home" | "faqs"}) {
+  const faqsData = [
     {
       question: "Do I need to have a finished manuscript?",
       answer:
@@ -77,6 +79,8 @@ export function FAQ() {
     },
   ];
 
+  const faqs = type === "home" ? faqsData.slice(0, 6) : faqsData;
+
   return (
     <section className="py-20 bg-white pattern-bg" id="faq">
       <div className="container mx-auto px-6">
@@ -122,26 +126,43 @@ export function FAQ() {
               </AccordionItem>
             ))}
           </Accordion>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="mt-12 text-center bg-white rounded-xl p-8 shadow-md border border-light-primary"
-          >
-            <h3 className="mb-3 text-xl">Didn't find your question?</h3>
-            <p className="text-base">
-              You can reach out to us directly at{" "}
-              <a
-                href="mailto:paperstery@gmail.com"
-                className="text-primary hover:underline font-medium"
+          {type === "home" ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              viewport={{ once: true }}
+              className="text-center mt-12"
+            >
+              <Button
+                size="lg"
+                asChild
+                className="bg-primary text-white hover:bg-primary/90 transition-all shadow-md text-base px-8"
               >
-                paperstery@gmail.com
-              </a>
-              , and we will respond.
-            </p>
-          </motion.div>
+                <Link href="/faqs">See More</Link>
+              </Button>
+            </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              className="mt-12 text-center bg-white rounded-xl p-8 shadow-md border border-light-primary"
+            >
+              <h3 className="mb-3 text-xl">Didn't find your question?</h3>
+              <p className="text-base">
+                You can reach out to us directly at{" "}
+                <a
+                  href="mailto:paperstery@gmail.com"
+                  className="text-primary hover:underline font-medium"
+                >
+                  paperstery@gmail.com
+                </a>
+                , and we will respond.
+              </p>
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </section>

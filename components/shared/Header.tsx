@@ -22,7 +22,7 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur shadow-sm font-nobel_uno font-medium">
+    <header className="fixed w-full top-0 z-50 bg-white/80 backdrop-blur shadow-sm font-nobel_uno font-medium">
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -76,7 +76,7 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white border-t border-primary)/20"
+            className="lg:hidden bg-white border-t border-primary/20"
           >
             <nav className="container mx-auto px-6 py-6 flex flex-col gap-4">
               {navItems.map((item) => (

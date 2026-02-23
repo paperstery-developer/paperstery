@@ -6,6 +6,7 @@ import library from "@/assets/images/library.jpeg";
 import aboutSection from '@/assets/images/about-section.webp';
 
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export function About() {
   return (
@@ -84,9 +85,12 @@ export function About() {
 
           <Button
             size="lg"
+            asChild
             className="bg-primary text-white hover:bg-primary/90 transition-all shadow-md text-base px-8"
           >
-            Publish With Us Today
+            <Link href="/submit-manuscript">
+              Publish With Us Today
+            </Link>
           </Button>
         </motion.div>
       </div>

@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.paperstery.com";
+  const baseUrl = "https://paperstery.vercel.app";
 
   return [
     {
@@ -26,16 +26,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/blog`,
       lastModified: new Date(),
       changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/faqs`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
       priority: 0.7,
     },
     {
-      url: `${baseUrl}/#faq`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/submit`,
+      url: `${baseUrl}/submit-manuscript`,
       lastModified: new Date(),
       changeFrequency: "yearly",
       priority: 0.8,
@@ -44,7 +44,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
       changeFrequency: "yearly",
-      priority: 0.5,
+      priority: 0.7,
     },
   ];
 }

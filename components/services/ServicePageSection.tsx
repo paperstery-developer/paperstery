@@ -13,7 +13,7 @@ export function ServicesPageSection() {
     ...servicesData[slug as keyof typeof servicesData],
   }));
   return (
-    <div className="bg-background py-24">
+    <div className="bg-background pt-24">
       {/* Hero Header */}
       <section className="relative text-center px-6">
         <div className="max-w-4xl mx-auto">
@@ -82,8 +82,10 @@ export function ServicesPageSection() {
             Ready to bring your story to life?
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button size="lg" className="rounded-full px-10 py-7 text-lg">
-              Publish With Us Today
+            <Button size="lg" className="rounded-full px-10 py-7 text-lg" asChild>
+              <Link href="/submit-manuscript">
+                Publish With Us Today
+              </Link>
             </Button>
             <Link
               href="/contact"
