@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center bg-background border-b border-primary/20 px-6 text-center font-nobel_uno">
       {/* Visual Icon */}
-      <div className="relative">
+      <div className="relative pt-18">
         <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full" />
         <h1 className="font-marble font-bold text-primary text-9xl!">404</h1>
       </div>
