@@ -13,9 +13,24 @@ import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Newsletter } from "@/components/common/Newsletter";
 import Link from "next/link";
-import { BlogPost as PrismaBlogPost } from "@prisma/client";
 import { Inbox } from "lucide-react";
 import Image from "next/image";
+
+type PrismaBlogPost = {
+    id: string;
+    title: string;
+    author: string;
+    email: string;
+    content: string;
+    category: string | null;
+    imageName: string;
+    imageUrl: string | null;
+    imageSize: number;
+    status: string;
+    cloudinaryId: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+}
 
 export function BlogPageSection({
   initialPosts = [],
