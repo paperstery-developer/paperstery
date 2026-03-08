@@ -5,9 +5,9 @@ export const contactInfo = [
     icon: Mail,
     title: "Email Us",
     details: [
-      { label: "General Inquiries", value: "papersterycalendly@gmail.com" },
-      { label: "Submissions", value: "paperstery@gmail.com" },
-      { label: "Support", value: "papersterysupport@gmail.com" },
+      { label: "General Inquiries", value: "info@paperstery.com" },
+      { label: "Submissions", value: "submissions@paperstery.com" },
+      { label: "Support", value: "support@paperstery.com" },
     ],
   },
   {

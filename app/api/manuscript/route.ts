@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { sendEmail, emailTemplates } from "@/lib/nodemailer";
 import { saveManuscript } from "@/lib/db-services";
+import { prisma } from "@/lib/prisma";
 import {
   uploadToCloudinary,
   type CloudinaryUploadResult,
@@ -49,10 +50,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate file size (max 10MB)
-    if (file.size > 10 * 1024 * 1024) {
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
       return NextResponse.json(
-        { error: "File size must be less than 10MB" },
+        { error: "File size must be less than 5MB" },
         { status: 400 },
       );
     }
@@ -86,27 +87,27 @@ export async function POST(request: NextRequest) {
       cloudinaryId: cloudinaryResponse?.public_id,
     });
 
-    // Send confirmation email to author
-    const template = emailTemplates.manuscript(author, title);
-    await sendEmail({
-      to: email,
-      subject: template.subject,
-      html: template.html,
-    });
+    // Offload emails to background
+    after(async () => {
+      try {
+        // Send confirmation email to author
+        const template = emailTemplates.manuscript(author, title);
+        await sendEmail({
+          to: email,
+          subject: template.subject,
+          html: template.html,
+        });
 
-    // Send notification email to admin
-    const adminTemplate = emailTemplates.manuscript(author, title);
-    await sendEmail({
-      to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "",
-      subject: `New Manuscript: ${title}`,
-      html: `
-        <h2>New Manuscript Submission</h2>
-        <p><strong>Author:</strong> ${author}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Title:</strong> ${title}</p>
-        <p><strong>Description:</strong> ${description || "N/A"}</p>
-        <p><strong>File:</strong> ${file.name}</p>
-      `,
+        // Send notification email to admin
+        const adminTemplate = emailTemplates.manuscriptAdminNotification(author, email, title, file.name, description);
+        await sendEmail({
+          to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "",
+          subject: adminTemplate.subject,
+          html: adminTemplate.html,
+        });
+      } catch (err) {
+        console.error("Background email error (manuscript):", err);
+      }
     });
 
     return NextResponse.json(
@@ -120,6 +121,37 @@ export async function POST(request: NextRequest) {
     console.error("Manuscript submission error:", error);
     return NextResponse.json(
       { error: "Failed to process manuscript submission" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "10");
+
+    const skip = (page - 1) * limit;
+
+    const [manuscripts, total] = await Promise.all([
+      prisma.manuscript.findMany({
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.manuscript.count(),
+    ]);
+
+    return NextResponse.json({
+      manuscripts,
+      total,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch manuscripts" },
       { status: 500 },
     );
   }

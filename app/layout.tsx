@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-
-import { Header } from "@/components/shared/Header";
-import { Footer } from "@/components/shared/Footer";
+import { Toaster } from "@/components/ui/sonner";
+import QueryProvider from "@/components/providers/QueryProvider";
 
 import { marble, nobelUno } from "./fonts";
 
@@ -53,10 +52,11 @@ export default function RootLayout({
         className={`${marble.variable} ${nobelUno.variable} antialiased`}
         suppressHydrationWarning
       >
-        {/* <ResponsiveBlocker /> */}
-        <Header />
-        {children}
-        <Footer />
+        <QueryProvider>
+          {/* <ResponsiveBlocker /> */}
+          {children}
+          <Toaster richColors position="top-right" />
+        </QueryProvider>
       </body>
     </html>
   );

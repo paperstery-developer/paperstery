@@ -9,6 +9,7 @@ import {
 import { BadgeQuestionMark } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { contactInfo } from "@/lib/constants";
 
 export function FAQ({type = 'faqs'}: {type?: "home" | "faqs"}) {
   const faqsData = [
@@ -60,12 +61,6 @@ export function FAQ({type = 'faqs'}: {type?: "home" | "faqs"}) {
       question: "Can organizations commission books or reports?",
       answer:
         "Yes. We work with academic and corporate organizations on commissioned publishing projects.",
-    },
-    {
-      question:
-        "Do you work with authors outside the United States and Nigeria?",
-      answer:
-        "Yes. While we are based in the United States and Nigeria, we work with authors and organizations globally.",
     },
     {
       question: "Is there a submission fee?",
@@ -154,10 +149,10 @@ export function FAQ({type = 'faqs'}: {type?: "home" | "faqs"}) {
               <p className="text-base">
                 You can reach out to us directly at{" "}
                 <a
-                  href="mailto:paperstery@gmail.com"
+                  href={`mailto:${contactInfo[0].details[0].value}`}
                   className="text-primary hover:underline font-medium"
                 >
-                  paperstery@gmail.com
+                  {contactInfo[0].details[0].value}
                 </a>
                 , and we will respond.
               </p>

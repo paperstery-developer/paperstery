@@ -1,18 +1,80 @@
 "use client";
-import { Upload, Mail, Plane, Info } from "lucide-react";
+import { Upload, Mail, Plane, Info, Loader2 } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { FileUploader } from "react-drag-drop-files";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 export function SubmitManuscript() {
-  const fileTypes = ["PDF", "DOC", "DOCX", "TXT"];
-  const [file, setFile] = useState<File | File[] | null>(null);
-  const handleChange = (file: File | File[]) => {
-    setFile(file);
+  const fileTypes = ["PDF", "DOC", "DOCX"];
+  const [file, setFile] = useState<File | null>(null);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    email: "",
+    phone: "",
+    title: "",
+    description: "",
+  });
+  const [showModal, setShowModal] = useState(false);
+
+  const handleFileChange = (file: File | File[]) => {
+    setFile(Array.isArray(file) ? file[0] : file);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (data: FormData) => {
+      const res = await fetch("/api/manuscript", {
+        method: "POST",
+        body: data,
+      });
+      const resData = await res.json();
+      if (!res.ok) throw new Error(resData.error || "Failed to submit manuscript");
+      return resData;
+    },
+    onSuccess: () => {
+      setShowModal(true);
+      setFormData({
+        firstName: "", email: "", phone: "", title: "", description: ""
+      });
+      setFile(null);
+    },
+    onError: (err: any) => {
+      toast.error(err.message || "An error occurred during submission");
+    }
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!file) {
+      toast.error("Please upload a manuscript file");
+      return;
+    }
+    
+    const data = new FormData();
+    data.append("file", file);
+    data.append("title", formData.title);
+    data.append("author", formData.firstName);
+    data.append("email", formData.email);
+    data.append("phone", formData.phone);
+    data.append("description", formData.description);
+
+    mutate(data);
   };
 
   return (
@@ -50,7 +112,7 @@ export function SubmitManuscript() {
               <Info size={16} />
               Fields marked with asterisks (*) are required.
             </p>
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <label
@@ -61,6 +123,8 @@ export function SubmitManuscript() {
                   </label>
                   <Input
                     id="firstName"
+                    value={formData.firstName}
+                    onChange={handleInputChange}
                     type="text"
                     placeholder="Enter your first name"
                     className="w-full border-primary/20 focus:border-primary"
@@ -77,6 +141,8 @@ export function SubmitManuscript() {
                   </label>
                   <Input
                     id="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
                     type="email"
                     placeholder="your.email@example.com"
                     className="w-full border-primary/20 focus:border-primary"
@@ -85,20 +151,41 @@ export function SubmitManuscript() {
                 </div>
               </div>
 
-              <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-primary mb-2"
-                >
-                  Phone Number *
-                </label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="+1 (555) 000-0000"
-                  className="w-full border-primary/20 focus:border-primary"
-                  required
-                />
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label
+                    htmlFor="title"
+                    className="block text-sm font-medium text-primary mb-2"
+                  >
+                    Manuscript Title *
+                  </label>
+                  <Input
+                    id="title"
+                    value={formData.title}
+                    onChange={handleInputChange}
+                    type="text"
+                    placeholder="Title of your work"
+                    className="w-full border-primary/20 focus:border-primary"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="phone"
+                    className="block text-sm font-medium text-primary mb-2"
+                  >
+                    Phone Number *
+                  </label>
+                  <Input
+                    id="phone"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    type="tel"
+                    placeholder="+1 (555) 000-0000"
+                    className="w-full border-primary/20 focus:border-primary"
+                    required
+                  />
+                </div>
               </div>
 
               <div>
@@ -110,6 +197,8 @@ export function SubmitManuscript() {
                 </label>
                 <Textarea
                   id="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
                   placeholder="Tell us about your book, manuscript, or idea..."
                   className="w-full min-h-[150px] border-primary/20 focus:border-primary"
                   required
@@ -124,7 +213,7 @@ export function SubmitManuscript() {
                   Upload Manuscript (Optional)
                 </label>
                 <FileUploader
-                  handleChange={handleChange}
+                  handleChange={handleFileChange}
                   name="file"
                   types={fileTypes}
                   multiple={false}
@@ -138,10 +227,7 @@ export function SubmitManuscript() {
                       <Upload className="w-12 h-12 text-primary mx-auto mb-3" />
                       {file ? (
                         <p className="text-sm! text-secondary mb-2">
-                          {Array.isArray(file)
-                            ? file.map((f) => f.name).join(", ")
-                            : file.name}{" "}
-                          uploaded successfully!
+                          {file.name} uploaded successfully!
                         </p>
                       ) : (
                         <>
@@ -163,10 +249,12 @@ export function SubmitManuscript() {
 
               <Button
                 type="submit"
+                disabled={isPending}
                 size="lg"
-                className="w-full bg-primary text-white hover:bg-primary/90 transition-all shadow-md text-base"
+                className="w-full bg-primary text-white hover:bg-primary/90 transition-all shadow-md text-base gap-2"
               >
-                Submit Manuscript
+                {isPending && <Loader2 className="w-4 h-4 animate-spin" />}
+                {isPending ? "Submitting..." : "Submit Manuscript"}
               </Button>
             </form>
 
@@ -193,6 +281,21 @@ export function SubmitManuscript() {
           </div>
         </motion.div>
       </div>
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="sm:max-w-md bg-white">
+          <DialogHeader>
+            <DialogTitle className="text-center text-primary text-2xl">Submission Received!</DialogTitle>
+            <DialogDescription className="text-center text-secondary pt-2">
+              Thank you for submitting your manuscript. Our team will review your work and get back to you soon.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center mt-4">
+            <Button onClick={() => setShowModal(false)} className="bg-primary text-white hover:bg-primary/90">
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }

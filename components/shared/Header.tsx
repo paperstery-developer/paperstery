@@ -92,8 +92,9 @@ export function Header() {
               <div className="flex flex-col">
                 <Button
                   asChild
-                  size={'lg'}
+                  size={"lg"}
                   className="bg-primary text-white hover:bg-primary/90 w-full font-semibold"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   <Link href="/submit-manuscript">Publish With Us</Link>
                 </Button>

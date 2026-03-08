@@ -25,9 +25,9 @@ export const servicesData = {
     subHeading:
       "For authors who have a draft but need structure, clarity, and professional refinement to prepare for the world stage.",
     whoItIsFor: [
-      "Fiction writers",
-      "Memoirists",
-      "Poets with completed or partial drafts",
+      "Creative writers",
+      "Non-fiction authors",
+      "Organizations",
     ],
     parentIcon: FileEdit,
     approach:
