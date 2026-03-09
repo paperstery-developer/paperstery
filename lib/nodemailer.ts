@@ -184,4 +184,16 @@ export const emailTemplates = {
       <p>Please log in to the admin dashboard to review this manuscript.</p>
     `, "New Manuscript Submission"),
   }),
+  forgotPassword: (resetUrl: string) => ({
+    subject: "Reset Your Password - Paperstery",
+    html: emailLayout(`
+      <h1>Password Reset Request</h1>
+      <p>You recently requested to reset your password for your Paperstery account. Click the button below to proceed.</p>
+      <a href="${resetUrl}" class="button">Reset Password</a>
+      <p>This link will expire in 10 minutes. If you did not request a password reset, please ignore this email or contact support if you have questions.</p>
+      <div class="divider"></div>
+      <p>If you're having trouble clicking the "Reset Password" button, copy and paste the URL below into your web browser:</p>
+      <p style="word-break: break-all; font-size: 14px; color: #6366f1;">${resetUrl}</p>
+    `, "Reset Your Password"),
+  }),
 };

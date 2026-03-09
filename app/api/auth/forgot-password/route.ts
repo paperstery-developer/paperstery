@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import crypto from "crypto";
-import { sendEmail } from "@/lib/nodemailer"; // assuming this exists and is configured
+import { sendEmail, emailTemplates } from "@/lib/nodemailer";
 
 export async function POST(request: Request) {
   try {
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
     // Generate a secure reset token
     const resetToken = crypto.randomBytes(32).toString("hex");
-    const resetTokenExpiry = new Date(Date.now() + 1000 * 60 * 60); // 1 hour from now
+    const resetTokenExpiry = new Date(Date.now() + 1000 * 60 * 10); // 10 minutes from now
 
     // Save token to database
     await prisma.admin.update({
@@ -38,16 +38,11 @@ export async function POST(request: Request) {
     const resetUrl = `${baseUrl}/admin/reset-password?token=${resetToken}`;
 
     // Send email to admin
+    const template = emailTemplates.forgotPassword(resetUrl);
     await sendEmail({
       to: admin.email,
-      subject: "Paperstery Admin - Password Reset",
-      html: `
-        <h2>Password Reset Request</h2>
-        <p>You requested a password reset for your Paperstery Admin account.</p>
-        <p>Click the link below to securely reset your password. This link is valid for 1 hour.</p>
-        <a href="${resetUrl}" style="display:inline-block;padding:10px 20px;background-color:#4F46E5;color:white;text-decoration:none;border-radius:5px;margin-top:10px;">Reset Password</a>
-        <p style="margin-top:20px;font-size:12px;color:gray;">If you did not request this, please ignore this email.</p>
-      `,
+      subject: template.subject,
+      html: template.html,
     });
 
     return NextResponse.json({ success: true, message: "If the email is highly recognized, a reset link will be sent." });
