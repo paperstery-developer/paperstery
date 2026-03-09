@@ -121,6 +121,17 @@ exports.Prisma.SubscriptionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AdminScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  password: 'password',
+  role: 'role',
+  resetToken: 'resetToken',
+  resetTokenExpiry: 'resetTokenExpiry',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ContactFormScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -136,6 +147,7 @@ exports.Prisma.ManuscriptScalarFieldEnum = {
   title: 'title',
   author: 'author',
   email: 'email',
+  phone: 'phone',
   description: 'description',
   fileName: 'fileName',
   fileUrl: 'fileUrl',
@@ -150,6 +162,7 @@ exports.Prisma.ManuscriptScalarFieldEnum = {
 exports.Prisma.BlogPostScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  slug: 'slug',
   author: 'author',
   email: 'email',
   content: 'content',
@@ -176,6 +189,7 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ModelName = {
   Subscription: 'Subscription',
+  Admin: 'Admin',
   ContactForm: 'ContactForm',
   Manuscript: 'Manuscript',
   BlogPost: 'BlogPost'

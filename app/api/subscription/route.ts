@@ -1,5 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { sendEmail, emailTemplates } from "@/lib/nodemailer";
+import { prisma } from "@/lib/prisma";
 import { saveSubscription, getSubscription } from "@/lib/db-services";
 
 export async function POST(request: NextRequest) {
@@ -28,13 +29,20 @@ export async function POST(request: NextRequest) {
     // Save to database
     await saveSubscription(email);
 
-    // Send confirmation email to subscriber
-    const template = emailTemplates.subscription(email);
-    await sendEmail({
-      to: email,
-      subject: template.subject,
-      html: template.html,
-      text: template.text,
+    // Offload emails to background
+    after(async () => {
+      try {
+        // Send confirmation email to subscriber
+        const template = emailTemplates.subscription(email);
+        await sendEmail({
+          to: email,
+          subject: template.subject,
+          html: template.html,
+          text: template.text,
+        });
+      } catch (err) {
+        console.error("Background email error (subscription):", err);
+      }
     });
 
     return NextResponse.json(
@@ -45,6 +53,37 @@ export async function POST(request: NextRequest) {
     console.error("Subscription error:", error);
     return NextResponse.json(
       { error: "Failed to process subscription" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "10");
+
+    const skip = (page - 1) * limit;
+
+    const [subscriptions, total] = await Promise.all([
+      prisma.subscription.findMany({
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.subscription.count(),
+    ]);
+
+    return NextResponse.json({
+      subscriptions,
+      total,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch subscriptions" },
       { status: 500 },
     );
   }

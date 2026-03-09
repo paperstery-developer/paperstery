@@ -1,12 +1,70 @@
-"use client";
+'use client'
+import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 import { motion } from "motion/react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { MapPin, Send, MessageCircle, Info, Globe2 } from "lucide-react";
 import { contactInfo, offices } from "@/lib/constants";
 
 export function ContactPageSection() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: ""
+  });
+  const [showModal, setShowModal] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (payload: any) => {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to submit form");
+      return data;
+    },
+    onSuccess: () => {
+      setShowModal(true);
+      setFormData({
+        firstName: "", lastName: "", email: "", phone: "", subject: "", message: ""
+      });
+    },
+    onError: (err: any) => {
+      toast.error(err.message || "An error occurred");
+    }
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const payload = {
+      name: `${formData.firstName} ${formData.lastName}`.trim(),
+      email: formData.email,
+      phone: formData.phone,
+      subject: formData.subject,
+      message: formData.message
+    };
+    mutate(payload);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -56,7 +114,7 @@ export function ContactPageSection() {
                   </em>
                 </div>
 
-                <form className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label
@@ -67,6 +125,8 @@ export function ContactPageSection() {
                       </label>
                       <Input
                         id="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
                         type="text"
                         placeholder="John"
                         className="w-full border-primary/20 focus:border-primary"
@@ -83,6 +143,8 @@ export function ContactPageSection() {
                       </label>
                       <Input
                         id="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
                         type="text"
                         placeholder="Doe"
                         className="w-full border-primary/20 focus:border-primary"
@@ -101,6 +163,8 @@ export function ContactPageSection() {
                       </label>
                       <Input
                         id="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         type="email"
                         placeholder="john.doe@example.com"
                         className="w-full border-primary/20 focus:border-primary"
@@ -117,6 +181,8 @@ export function ContactPageSection() {
                       </label>
                       <Input
                         id="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
                         type="tel"
                         placeholder="+1 (555) 000-0000"
                         className="w-full border-primary/20 focus:border-primary"
@@ -133,6 +199,8 @@ export function ContactPageSection() {
                     </label>
                     <Input
                       id="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
                       type="text"
                       placeholder="How can we help you?"
                       className="w-full border-primary/20 focus:border-primary"
@@ -149,6 +217,8 @@ export function ContactPageSection() {
                     </label>
                     <Textarea
                       id="message"
+                      value={formData.message}
+                      onChange={handleChange}
                       placeholder="Tell us about your project, questions, or how we can assist you..."
                       className="w-full min-h-[180px] border-primary/20 focus:border-primary"
                       required
@@ -157,11 +227,16 @@ export function ContactPageSection() {
 
                   <Button
                     type="submit"
+                    disabled={isPending}
                     size="lg"
                     className="w-full bg-primary text-white hover:bg-primary/90 transition-all shadow-md gap-2"
                   >
-                    <Send className="w-4 h-4" />
-                    Send Message
+                    {isPending ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Send className="w-4 h-4" />
+                    )}
+                    {isPending ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               </motion.div>
@@ -230,8 +305,7 @@ export function ContactPageSection() {
             </div>
             <h2 className="mb-4">Operating Across Borders</h2>
             <p className="max-w-3xl mx-auto text-lg text-secondary">
-              Paperstery is a global entity supported by strategic
-              administrative hubs in the USA and Nigeria, enabling us to deliver
+              Paperstery is incorporated in the United States and Nigeria, enabling us to deliver
               world-class solutions to our international clientele.
             </p>
           </motion.div>
@@ -273,6 +347,21 @@ export function ContactPageSection() {
           </div>
         </div>
       </section>
+      <Dialog open={showModal} onOpenChange={setShowModal}>
+        <DialogContent className="sm:max-w-md bg-white">
+          <DialogHeader>
+            <DialogTitle className="text-center text-primary text-2xl">Thank You!</DialogTitle>
+            <DialogDescription className="text-center text-secondary pt-2">
+              Your message has been sent successfully. We will get back to you soon.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-center mt-4">
+            <Button onClick={() => setShowModal(false)} className="bg-primary text-white hover:bg-primary/90">
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

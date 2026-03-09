@@ -2,8 +2,9 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "./generated/prisma"
+  provider        = "prisma-client-js"
+  output          = "./generated/prisma"
+  previewFeatures = ["relationJoins"]
 }
 
 datasource db {
@@ -18,6 +19,19 @@ model Subscription {
   updatedAt DateTime @updatedAt
 
   @@map("subscriptions")
+}
+
+model Admin {
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  email            String    @unique
+  password         String // Hashed
+  role             String    @default("admin") // e.g. "superadmin", "admin"
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@map("admins")
 }
 
 model ContactForm {
@@ -37,6 +51,7 @@ model Manuscript {
   title        String
   author       String
   email        String
+  phone        String?
   description  String?
   fileName     String
   fileUrl      String? // Cloudinary URL after upload
@@ -53,6 +68,7 @@ model Manuscript {
 model BlogPost {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   title        String
+  slug         String?  @unique
   author       String
   email        String
   content      String

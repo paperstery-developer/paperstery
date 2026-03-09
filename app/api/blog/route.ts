@@ -1,6 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { sendEmail, emailTemplates } from "@/lib/nodemailer";
 import { saveBlogPost } from "@/lib/db-services";
+import { prisma } from "@/lib/prisma";
 import {
   uploadToCloudinary,
   type CloudinaryUploadResult,
@@ -89,31 +90,32 @@ export async function POST(request: NextRequest) {
       category,
       imageName: image.name,
       imageSize: image.size,
-      // imageUrl: cloudinaryResponse?.secure_url,
-      // cloudinaryId: cloudinaryResponse?.public_id,
+      imageUrl: cloudinaryResponse?.secure_url,
+      cloudinaryId: cloudinaryResponse?.public_id,
+      status: "published",
     });
 
-    // Send confirmation email to author
-    const template = emailTemplates.blog(author, title);
-    await sendEmail({
-      to: email,
-      subject: template.subject,
-      html: template.html,
-    });
+    // Offload emails to background
+    after(async () => {
+      try {
+        // Send confirmation email to author
+        const template = emailTemplates.blog(author, title);
+        await sendEmail({
+          to: email,
+          subject: template.subject,
+          html: template.html,
+        });
 
-    // Send notification email to admin
-    await sendEmail({
-      to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "",
-      subject: `New Blog Post: ${title}`,
-      html: `
-        <h2>New Blog Post Submission</h2>
-        <p><strong>Author:</strong> ${author}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Title:</strong> ${title}</p>
-        <p><strong>Category:</strong> ${category || "Uncategorized"}</p>
-        <p><strong>Content Length:</strong> ${content.length} characters</p>
-        <p><strong>Featured Image:</strong> ${image.name}</p>
-      `,
+        // Send notification email to admin
+        const adminTemplate = emailTemplates.blogAdminNotification(author, email, title, category, content.length);
+        await sendEmail({
+          to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "",
+          subject: adminTemplate.subject,
+          html: adminTemplate.html,
+        });
+      } catch (err) {
+        console.error("Background email error (blog):", err);
+      }
     });
 
     return NextResponse.json(
@@ -127,6 +129,50 @@ export async function POST(request: NextRequest) {
     console.error("Blog submission error:", error);
     return NextResponse.json(
       { error: "Failed to process blog submission" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "10");
+    const search = searchParams.get("search") || "";
+    const status = searchParams.get("status") || undefined;
+
+    const skip = (page - 1) * limit;
+
+    const where: any = {};
+    if (status) where.status = status;
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: "insensitive" } },
+        { author: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    const [posts, total] = await Promise.all([
+      prisma.blogPost.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.blogPost.count({ where }),
+    ]);
+
+    return NextResponse.json({
+      posts,
+      total,
+      totalPages: Math.ceil(total / limit),
+      currentPage: page,
+    });
+  } catch (error) {
+    console.error("Error fetching blogs:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch blogs" },
       { status: 500 },
     );
   }

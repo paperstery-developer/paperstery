@@ -1,12 +1,18 @@
 import { BlogPageSection } from "@/components/blog/BlogPageSection";
 import { HeroSection } from "@/components/shared/HeroSection";
 import { Metadata } from "next";
+import { getBlogPostsPaginated } from "@/lib/db-services";
 
 export const metadata: Metadata = {
   title: "Our Blog Posts | Paperstery",
 };
 
-export default function Page() {
+export default async function Page({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
+    const sp = await searchParams;
+    const page = Number(sp?.page) || 1;
+    const limit = 6;
+    const { posts, totalPages } = await getBlogPostsPaginated(page, limit, "published");
+
     return (
         <div>
             <HeroSection
@@ -17,7 +23,7 @@ export default function Page() {
                   { label: "Blogs", href: "/blogs" },
                 ]}
             />
-            <BlogPageSection />
+            <BlogPageSection initialPosts={posts} currentPage={page} totalPages={totalPages} />
         </div>
     )
 }

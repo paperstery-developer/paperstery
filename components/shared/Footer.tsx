@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 import LogoWhite from "./LogoWhite";
 import IconWhite from "./IconWhite";
-import { offices } from "@/lib/constants";
+import { contactInfo, offices } from "@/lib/constants";
 
 export function Footer() {
   return (
@@ -78,12 +78,6 @@ export function Footer() {
                   href="#"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-all flex items-center justify-center"
                 >
-                  <Twitter className="w-5 h-5" />
-                </Link>
-                <Link
-                  href="#"
-                  className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-all flex items-center justify-center"
-                >
                   <Instagram className="w-5 h-5" />
                 </Link>
                 <Link
@@ -120,7 +114,7 @@ export function Footer() {
                     href="/#services"
                     className="hover:text-white transition-colors"
                   >
-                    Academic Publishing
+                    Organizational Publishing
                   </Link>
                 </li>
                 <li>
@@ -196,10 +190,10 @@ export function Footer() {
                 <li className="flex items-start gap-2">
                   <Mail className="w-4 h-4 text-white mt-1 shrink-0" />
                   <Link
-                    href="mailto:paperstery@gmail.com"
+                    href={`mailto:${contactInfo[0].details[0].value}`}
                     className="hover:text-white transition-colors"
                   >
-                    paperstery@gmail.com
+                    {contactInfo[0].details[0].value}
                   </Link>
                 </li>
                 <li className="flex flex-col gap-6">

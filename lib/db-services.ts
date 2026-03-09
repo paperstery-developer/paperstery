@@ -81,7 +81,6 @@ export async function updateManuscriptStatus(id: string, status: string) {
   });
 }
 
-// Blog Services
 export async function saveBlogPost(data: {
   title: string;
   author: string;
@@ -92,6 +91,7 @@ export async function saveBlogPost(data: {
   imageSize: number;
   imageUrl?: string;
   cloudinaryId?: string;
+  status?: string;
 }) {
   return prisma.blogPost.create({
     data: {
@@ -99,6 +99,7 @@ export async function saveBlogPost(data: {
       category: data.category || null,
       imageUrl: data.imageUrl || null,
       cloudinaryId: data.cloudinaryId || null,
+      status: data.status || "pending",
     },
   });
 }
@@ -113,6 +114,21 @@ export async function getBlogPosts(status?: string) {
   return prisma.blogPost.findMany({
     orderBy: { createdAt: "desc" },
   });
+}
+
+export async function getBlogPostsPaginated(page: number, limit: number, status?: string) {
+  const skip = (page - 1) * limit;
+  const where = status ? { status } : {};
+  const [posts, total] = await Promise.all([
+    prisma.blogPost.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: limit,
+    }),
+    prisma.blogPost.count({ where }),
+  ]);
+  return { posts, total, totalPages: Math.ceil(total / limit) };
 }
 
 export async function updateBlogPostStatus(id: string, status: string) {
