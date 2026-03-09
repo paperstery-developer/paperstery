@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Mail, User, Calendar, MessageSquare } from "lucide-react";
+import { Mail, User, Calendar, MessageSquare, Clock } from "lucide-react";
 import { DataTable } from "@/components/admin/DataTable";
 import { toast } from "sonner";
 import { format } from "date-fns";
@@ -111,43 +111,41 @@ export default function AdminContactsPage() {
       />
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-xl p-0 overflow-hidden border-none rounded-2xl shadow-2xl">
-          <div className="bg-primary p-8 text-white relative">
-            <div className="absolute top-4 right-4 opacity-20">
+        <DialogContent className="sm:max-w-xl p-0 overflow-hidden border-none rounded-2xl shadow-2xl max-h-[90vh] flex flex-col">
+          <div className="bg-primary p-6 sm:p-8 text-white relative shrink-0">
+            <div className="absolute top-4 right-4 opacity-20 hidden sm:block">
               <MessageSquare className="w-24 h-24" />
             </div>
             <DialogHeader className="relative z-10 text-left">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-white/20 rounded-full">
-                  <Mail className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-white/80 font-medium tracking-wider uppercase text-xs">New Inquiry</span>
-              </div>
-              <DialogTitle className="text-2xl font-bold text-white leading-tight">
+              <DialogTitle className="text-xl! sm:text-2xl! font-bold text-white leading-tight line-clamp-2">
                 {selectedContact?.subject || "Message Details"}
               </DialogTitle>
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-4 text-white/90 text-sm">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-4 text-white/90 text-xs sm:text-sm">
                 <div className="flex items-center gap-1.5">
-                  <User className="w-4 h-4" />
+                  <User className="w-3.5 h-3.5 sm:w-4 h-4" />
                   <span className="font-semibold">{selectedContact?.name}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Mail className="w-4 h-4 text-white/70" />
-                  <span>{selectedContact?.email}</span>
+                  <Mail className="w-3.5 h-3.5 sm:w-4 h-4 text-white/70" />
+                  <span className="break-all">{selectedContact?.email}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4 text-white/70" />
-                  <span>{selectedContact?.createdAt ? format(new Date(selectedContact.createdAt), "MMMM d, yyyy") : ""}</span>
+                  <Calendar className="w-3.5 h-3.5 sm:w-4 h-4 text-white/70" />
+                  <span>{selectedContact?.createdAt ? format(new Date(selectedContact.createdAt), "MMM d, yyyy") : ""}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 sm:w-4 h-4 text-white/70" />
+                  <span>{selectedContact?.createdAt ? format(new Date(selectedContact.createdAt), "hh:mm a") : ""}</span>
                 </div>
               </div>
             </DialogHeader>
           </div>
           
-          <div className="p-8 bg-white">
-            <div className="space-y-4">
+          <div className="flex-1 overflow-y-auto px-6 sm:px-8 bg-white">
+            <div className="space-y-6">
               <div>
-                <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 px-1">Message Content</h4>
-                <div className="bg-gray-50 rounded-xl p-6 border border-gray-100 min-h-[150px]">
+                <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3 px-1">Message Content</h4>
+                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100 min-h-[150px] overflow-x-auto">
                   <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
                     {selectedContact?.message}
                   </p>
@@ -156,17 +154,17 @@ export default function AdminContactsPage() {
             </div>
           </div>
           
-          <DialogFooter className="p-6 bg-gray-50/50 border-t border-gray-100 sm:justify-end gap-3 px-8">
+          <DialogFooter className="p-4 sm:p-6 bg-gray-50/50 border-t border-gray-100 flex-row sm:justify-end gap-3 shrink-0">
             <Button 
               variant="outline" 
               onClick={() => setIsModalOpen(false)}
-              className="rounded-full px-6 border-gray-200"
+              className="flex-1 sm:flex-none rounded-full px-6 border-gray-200"
             >
               Close
             </Button>
             <Button 
               asChild
-              className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 shadow-md shadow-primary/20"
+              className="flex-1 sm:flex-none bg-primary hover:bg-primary/90 text-white rounded-full px-8 shadow-md shadow-primary/20"
             >
               <a href={`mailto:${selectedContact?.email}?subject=Re: ${selectedContact?.subject}`}>
                 Quick Reply

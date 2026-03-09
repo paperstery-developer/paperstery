@@ -337,7 +337,7 @@ export default function EditBlog() {
 
         <div className="pt-4 flex justify-end gap-4">
           <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
-          <Button type="submit" disabled={saving} size="lg" className="bg-primary hover:bg-primary/90 text-white px-8">
+          <Button type="submit" disabled={saving} className="bg-primary hover:bg-primary/90 text-white px-8">
             {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
             {saving ? "Saving..." : "Save Changes"}
           </Button>

@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { BlogPost } from "@/lib/blog-data";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface BlogTemplateProps {
   post: BlogPost;
@@ -30,8 +31,10 @@ export default function BlogTemplate({
       {/* Article Header */}
       <section className="pt-24 pb-8 bg-white border-b border-gray-100">
         <div className="container mx-auto px-6">
-          <Button onClick={()=>navigation.back()} variant="ghost" className="gap-2">
-            <ArrowLeft className="w-4 h-4" /> Back to Blog
+          <Button asChild variant="ghost" className="gap-2">
+            <Link href="/blogs">
+              <ArrowLeft className="w-4 h-4" /> Back to Blog
+            </Link>
           </Button>
         </div>
       </section>

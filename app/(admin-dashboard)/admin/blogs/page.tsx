@@ -121,13 +121,13 @@ export default function AdminBlogsPage() {
         </div>
         <Button asChild className="bg-primary hover:bg-primary/90 text-white">
           <Link href="/admin/blogs/create">
-            <Plus className="w-4 h-4 mr-2" /> New Post
+            <Plus className="w-4 h-4" /> New Post
           </Link>
         </Button>
       </div>
 
       <div className="flex items-center gap-4 bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-        <div className="relative flex-1">
+        <div className="relative flex-1 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <Input
             placeholder="Search blogs..."

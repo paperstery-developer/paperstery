@@ -17,7 +17,7 @@ export function Blog() {
   const { data, isLoading } = useQuery({
     queryKey: ["top-blogs"],
     queryFn: async () => {
-      const res = await fetch("/api/blog?limit=3");
+      const res = await fetch("/api/blog?limit=3&status=published");
       if (!res.ok) throw new Error("Failed to fetch blogs");
       return res.json();
     },
