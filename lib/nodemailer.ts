@@ -51,11 +51,17 @@ const emailLayout = (content: string, title: string) => `
   <style>
     body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
     .container { max-width: 600px; margin: 20px auto; border: 1px solid #eee; border-radius: 8px; overflow: hidden; }
-    .header { background: #fff; padding: 30px; text-align: center; border-bottom: 1px solid #f0f0f0; }
+    .header { 
+      background-image: url('${LOGO_URL}'); 
+      background-size: cover; 
+      background-position: center; 
+      background-repeat: no-repeat;
+      height: 150px; 
+      border-bottom: 1px solid #f0f0f0; 
+    }
     .content { padding: 40px 30px; background: #fff; }
     .footer { background: #f9fafb; padding: 30px; text-align: center; color: #6b7280; font-size: 14px; border-top: 1px solid #f0f0f0; }
     .button { display: inline-block; padding: 12px 24px; background: ${BRAND_COLOR}; color: #ffffff !important; text-decoration: none; border-radius: 6px; font-weight: 600; margin-top: 20px; }
-    .logo { height: 40px; margin-bottom: 10px; }
     h1 { color: #111827; font-size: 24px; font-weight: 700; margin-bottom: 20px; }
     p { margin-bottom: 16px; font-size: 16px; color: #4b5563; }
     .divider { height: 1px; background: #e5e7eb; margin: 30px 0; }
@@ -63,8 +69,7 @@ const emailLayout = (content: string, title: string) => `
 </head>
 <body>
   <div class="container">
-    <div class="header">
-      <img src="${LOGO_URL}" alt="${BRAND_NAME}" class="logo" />
+    <div class="header" role="img" aria-label="${BRAND_NAME} Logo">
     </div>
     <div class="content">
       ${content}

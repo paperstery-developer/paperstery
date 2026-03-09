@@ -2,7 +2,7 @@
  * To run this seeder:
  * npx ts-node --compiler-options '{"module":"CommonJS"}' prisma/seed.ts
  */
-import { PrismaClient } from "../prisma/generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 import "dotenv/config";
 
 const bcrypt = require('bcryptjs');
