@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { BookOpen, FileText, Mail, Users } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Manuscript, ContactForm } from "@/definitions";
 
 export default async function AdminDashboard() {
   const [blogsCount, manuscriptsCount, contactsCount, subsCount] = await Promise.all([
@@ -63,7 +64,7 @@ export default async function AdminDashboard() {
               <p className="p-6 text-gray-500 text-sm">No recent manuscripts</p>
             ) : (
               <div className="divide-y divide-gray-100">
-                {recentManuscripts.map((manuscript: any) => (
+                {recentManuscripts.map((manuscript: Manuscript) => (
                   <div key={manuscript.id} className="p-4 hover:bg-gray-50">
                     <p className="font-medium text-gray-900">{manuscript.title}</p>
                     <p className="text-sm text-gray-500">{manuscript.author} • {manuscript.email}</p>
@@ -85,7 +86,7 @@ export default async function AdminDashboard() {
               <p className="p-6 text-gray-500 text-sm">No recent inquiries</p>
             ) : (
               <div className="divide-y divide-gray-100">
-                {recentContacts.map((contact: any) => (
+                {recentContacts.map((contact: ContactForm) => (
                   <div key={contact.id} className="p-4 hover:bg-gray-50">
                     <p className="font-medium text-gray-900">{contact.subject}</p>
                     <p className="text-sm text-gray-500">{contact.name} • {contact.email}</p>
