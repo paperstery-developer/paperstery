@@ -14,7 +14,6 @@ export type BlogPost = {
     bio?: string;
     image?: string;
   } | string;
-  readTime: string;
   featuredImage: string;
   content?: React.ReactNode | string;
   icon?: any;
@@ -34,7 +33,7 @@ export const blogPosts: Record<string, BlogPost> = {
       bio: "Dr. Sarah Mitchell is an award-winning author...",
       image: "https://images.unsplash.com/...",
     },
-    readTime: "8 min read",
+
     featuredImage: "https://images.unsplash.com/...",
   },
 };
@@ -53,7 +52,6 @@ export const mockFeaturedPost: BlogPost = {
     name: "Dr. Njiki Micheline",
     role: "Senior Writing Coach"
   },
-  readTime: "8 min read",
   category: "Creative Writing",
 };
 
@@ -69,7 +67,6 @@ export const mockBlogPosts: BlogPost[] = [
       "https://images.unsplash.com/photo-1648536524290-590fb42a04aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwdWJsaXNoaW5nJTIwYm9va3MlMjBsaWJyYXJ5fGVufDF8fHx8MTc2ODgzNDU1OXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     date: "January 12, 2026",
     author: "Michael Chen",
-    readTime: "6 min read",
     category: "Publishing",
   },
   {
@@ -83,7 +80,6 @@ export const mockBlogPosts: BlogPost[] = [
       "https://images.unsplash.com/photo-1644329771977-0a8c6e3928ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhdXRob3IlMjBtYW51c2NyaXB0fGVufDF8fHx8MTc2ODM1ODIwMXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     date: "January 10, 2026",
     author: "Emily Johnson",
-    readTime: "5 min read",
     category: "Authorship",
   },
   {
@@ -97,7 +93,6 @@ export const mockBlogPosts: BlogPost[] = [
       "https://images.unsplash.com/photo-1639917290489-4a4eb2a6aa3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhdXRob3IlMjB3cml0aW5nJTIwZGVza3xlbnwxfHx8fDE3Njg4MTUwNzF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     date: "January 8, 2026",
     author: "Dr. James Anderson",
-    readTime: "7 min read",
     category: "Professional Writing",
   },
   {
@@ -111,7 +106,6 @@ export const mockBlogPosts: BlogPost[] = [
       "https://images.unsplash.com/photo-1607703552474-f14ea04d766f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjcmVhdGl2ZSUyMHN0b3J5dGVsbGluZ3xlbnwxfHx8fDE3Njg4MzQ1NjB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     date: "January 5, 2026",
     author: "Rachel Martinez",
-    readTime: "10 min read",
     category: "Manuscript Development",
   },
   {
@@ -125,7 +119,6 @@ export const mockBlogPosts: BlogPost[] = [
       "https://images.unsplash.com/photo-1693075586720-ad1cdebc35c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxib29rJTIwZWRpdGluZyUyMG1hbnVzY3JpcHR8ZW58MXx8fHwxNzY4ODM0NTYwfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     date: "January 3, 2026",
     author: "Kevin Thompson",
-    readTime: "6 min read",
     category: "Marketing",
   },
   {
@@ -139,7 +132,6 @@ export const mockBlogPosts: BlogPost[] = [
       "https://images.unsplash.com/photo-1765338914560-64a072c06ea3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsaXRlcmFyeSUyMHN1Y2Nlc3N8ZW58MXx8fHwxNzY4ODM0NTYxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     date: "December 30, 2025",
     author: "Patricia Williams",
-    readTime: "9 min read",
     category: "Business",
   },
   {
@@ -153,7 +145,6 @@ export const mockBlogPosts: BlogPost[] = [
       "https://images.unsplash.com/photo-1589553787222-7469c73b27d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjB3cml0ZXJ8ZW58MXx8fHwxNzY4ODM0NTYxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     date: "December 27, 2025",
     author: "David Park",
-    readTime: "5 min read",
     category: "Creativity",
   },
   {
@@ -167,7 +158,7 @@ export const mockBlogPosts: BlogPost[] = [
       "https://images.unsplash.com/photo-1766128209231-ce21cfc9aca4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0eXBld3JpdGVyJTIwdmludGFnZSUyMHdyaXRpbmd8ZW58MXx8fHwxNzY4MzA5NzIxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     date: "December 24, 2025",
     author: "Dr. Olivia Carter",
-    readTime: "8 min read",
+
     category: "Academic",
   },
 ];

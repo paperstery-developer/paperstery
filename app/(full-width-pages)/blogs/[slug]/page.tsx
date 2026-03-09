@@ -50,7 +50,6 @@ export default async function Page({ params }: Props) {
             bio: "Author at Paperstery",
             image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1470"
           },
-          readTime: "5 min read",
           featuredImage: dbPost.imageUrl || "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1470",
           content: <div dangerouslySetInnerHTML={{ __html: dbPost.content }} />
         };
@@ -73,7 +72,6 @@ export default async function Page({ params }: Props) {
             bio: "Author at Paperstery",
             image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1470"
           },
-          readTime: "5 min read",
           featuredImage: p.imageUrl || "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1470",
         }));
       }

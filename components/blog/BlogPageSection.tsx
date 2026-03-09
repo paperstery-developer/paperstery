@@ -6,6 +6,7 @@ import {
   Clock,
   User,
   ArrowRight,
+  Calendar,
 } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
@@ -75,70 +76,72 @@ export function BlogPageSection({
     <div className="min-h-screen bg-background">
 
       {/* Featured Post */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-6xl mx-auto"
-          >
-            <div className="inline-block px-3 pb-0.5 rounded-full bg-light-primary mb-8">
-              <span className="text-xs text-primary font-medium">
-                FEATURED POST
-              </span>
-            </div>
+      {posts.length > 0 &&
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="max-w-6xl mx-auto"
+            >
+              <div className="inline-block px-3 pb-0.5 rounded-full bg-light-primary mb-8">
+                <span className="text-xs text-primary font-medium">
+                  LATEST POST
+                </span>
+              </div>
 
-            {posts.length > 0 && (() => {
-              const featuredPost = posts[0];
-              return (
-                <div className="grid lg:grid-cols-2 gap-8 items-center bg-background rounded-3xl overflow-hidden shadow-2xl">
-                  <div className="relative h-96 lg:h-full">
-                    <Image
-                      src={featuredPost.imageUrl || "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1470&auto=format&fit=crop"}
-                      alt={featuredPost.title}
-                      className="w-full h-full object-cover"
-                      unoptimized
-                      width={1080}
-                      height={1620}
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent"></div>
-                  </div>
-
-                  <div className="p-8 lg:p-12">
-                    <div className="inline-block px-3 py-1 rounded-full bg-light-primary mb-4">
-                      <span className="text-xs text-primary font-medium">
-                        {featuredPost.category}
-                      </span>
+              {(() => {
+                const featuredPost = posts[0];
+                return (
+                  <div className="grid lg:grid-cols-2 gap-8 items-center bg-background rounded-3xl overflow-hidden shadow-2xl">
+                    <div className="relative h-96 lg:h-full">
+                      <Image
+                        src={featuredPost.imageUrl || "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1470&auto=format&fit=crop"}
+                        alt={featuredPost.title}
+                        className="w-full h-full object-cover"
+                        unoptimized
+                        width={1080}
+                        height={1620}
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent"></div>
                     </div>
 
-                    <h2 className="mb-4 text-3xl">{featuredPost.title}</h2>
-
-                    <div className="flex items-center gap-4 text-sm text-secondary mb-6">
-                      <div className="flex items-center gap-2">
-                        <User className="w-4 h-4" />
-                        <span>{featuredPost.author}</span>
+                    <div className="p-8 lg:p-12">
+                      <div className="inline-block px-3 py-1 rounded-full bg-light-primary mb-4">
+                        <span className="text-xs text-primary font-medium">
+                          {featuredPost.category}
+                        </span>
                       </div>
+
+                      <h2 className="mb-4 text-3xl">{featuredPost.title}</h2>
+
+                      <div className="flex items-center gap-4 text-sm text-secondary mb-6">
+                        <div className="flex items-center gap-2">
+                          <User className="w-4 h-4" />
+                          <span>{featuredPost.author}</span>
+                        </div>
+                      </div>
+
+                      <div className="text-lg text-secondary mb-6 line-clamp-3" dangerouslySetInnerHTML={{ __html: featuredPost.content.substring(0, 200) + "..." }} />
+
+                      <Button
+                        size="lg"
+                        asChild
+                        className="bg-primary text-white hover:bg-primary/90 gap-2"
+                      >
+                        <Link href={`/blogs/${featuredPost.id}`}>
+                          Read Full Article <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </Button>
                     </div>
-
-                    <div className="text-lg text-secondary mb-6 line-clamp-3" dangerouslySetInnerHTML={{ __html: featuredPost.content.substring(0, 200) + "..." }} />
-
-                    <Button
-                      size="lg"
-                      asChild
-                      className="bg-primary text-white hover:bg-primary/90 gap-2"
-                    >
-                      <Link href={`/blogs/${featuredPost.id}`}>
-                        Read Full Article <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    </Button>
                   </div>
-                </div>
-              );
-            })()}
-          </motion.div>
-        </div>
-      </section>
+                );
+              })()}
+            </motion.div>
+          </div>
+        </section>
+      }
 
       {/* Categories Filter */}
       <section className="py-8 bg-light-primary/50">
@@ -218,11 +221,9 @@ export function BlogPageSection({
                       <div className="p-6 flex flex-col flex-grow">
                         <div className="flex items-center gap-3 text-xs text-secondary mb-3">
                           <div className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            <span>5 min read</span>
-                          </div>
-                          <span>•</span>
+                            <Calendar className="w-3 h-3" />
                           <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+                          </div>
                         </div>
 
                         <h3 className="mb-3 text-lg line-clamp-2">{post.title}</h3>

@@ -57,12 +57,10 @@ export default function BlogTemplate({
                 <Calendar className="w-4 h-4" />
                 <span>{post.date}</span>
               </div>
+              <span className="text-gray-500">•</span>
               <div className="flex items-center gap-2">
                 <User className="w-4 h-4" />
                 <span>{typeof post.author === 'string' ? post.author : post.author.name}</span>
-                {typeof post.author !== 'string' && post.author.role && (
-                  <span className="text-gray-500">• {post.author.role}</span>
-                )}
               </div>  
             </div>
             <div className="py-10 max-w-none [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:mb-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4 [&_p]:mb-4 [&_a]:text-primary [&_a]:underline [&_a]:cursor-pointer">
