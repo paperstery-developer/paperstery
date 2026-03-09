@@ -205,7 +205,7 @@ export default function EditBlog() {
               <option value="Authorship">Authorship</option>
               <option value="Marketing">Marketing</option>
               <option value="Business">Business</option>
-              <option value="Academic">Academic</option>
+              <option value="Organization">Organization</option>
             </select>
           </div>
         </div>

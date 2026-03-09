@@ -26,7 +26,11 @@ export async function POST(request: Request) {
     }
 
     // Create a secure JWT token for the session
-    const jwtSecret = process.env.JWT_SECRET || "fallback-secret-key-change-in-prod";
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      console.error('JWT_SECRET is not defined in environment variables');
+      return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    }
     const token = jwt.sign(
       { id: admin.id, email: admin.email, role: admin.role },
       jwtSecret,

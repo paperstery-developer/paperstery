@@ -3,6 +3,7 @@ import { blogPosts, BlogPost } from "@/lib/blog-data";
 import { notFound } from "next/navigation";
 import BlogTemplate from "@/components/blog/BlogTemplate";
 import { prisma } from "@/lib/prisma";
+import DOMPurify from "isomorphic-dompurify";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -37,6 +38,9 @@ export default async function Page({ params }: Props) {
     try {
       const dbPost = await prisma.blogPost.findUnique({ where: { id: slug } });
       if (dbPost) {
+        // Sanitize content
+        const sanitizedContent = DOMPurify.sanitize(dbPost.content);
+        
         formattedPost = {
           id: dbPost.id as any,
           slug: dbPost.id,
@@ -51,7 +55,7 @@ export default async function Page({ params }: Props) {
             image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1470"
           },
           featuredImage: dbPost.imageUrl || "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1470",
-          content: <div dangerouslySetInnerHTML={{ __html: dbPost.content }} />
+          content: <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
         };
         
         const related = await prisma.blogPost.findMany({
@@ -81,6 +85,11 @@ export default async function Page({ params }: Props) {
   if (!formattedPost) {
     formattedPost = blogPosts[slug];
     if (formattedPost) {
+      // Sanitize mock content if it's a string
+      if (typeof formattedPost.content === 'string') {
+        formattedPost.content = <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formattedPost.content) }} />;
+      }
+      
       formattedRelated = Object.values(blogPosts)
         .filter((p) => p.slug !== slug)
         .slice(0, 3);

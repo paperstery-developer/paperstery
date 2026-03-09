@@ -43,7 +43,6 @@ export default function AdminManuscriptsPage() {
     const link = document.createElement("a");
     link.href = url;
     link.setAttribute("download", fileName);
-    link.setAttribute("target", "_blank");
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -9,6 +9,14 @@ import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/admin/DataTable";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogFooter, 
+  DialogHeader, 
+  DialogTitle 
+} from "@/components/ui/dialog";
 
 interface BlogPost {
   id: string;
@@ -23,6 +31,8 @@ export default function AdminBlogsPage() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [postToDelete, setPostToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setDebouncedSearch(search), 500);
@@ -53,9 +63,16 @@ export default function AdminBlogsPage() {
     }
   });
 
-  const handleDelete = (id: string) => {
-    if (confirm("Are you sure you want to delete this blog post?")) {
-      deletePost(id);
+  const handleDeleteRequest = (id: string) => {
+    setPostToDelete(id);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (postToDelete) {
+      deletePost(postToDelete);
+      setIsDeleteDialogOpen(false);
+      setPostToDelete(null);
     }
   };
   const posts = data?.posts || [];
@@ -78,9 +95,7 @@ export default function AdminBlogsPage() {
     {
       header: "Status",
       accessor: (item: BlogPost) => (
-        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-          item.status === 'published' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
-        }`}>
+        <span className={`px-2 py-1 rounded-full text-xs font-medium ${item.status === 'published' ? 'bg-green-100 text-green-700' : item.status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700'}`}>
           {item.status}
         </span>
       ),
@@ -98,7 +113,7 @@ export default function AdminBlogsPage() {
               <Edit2 className="w-4 h-4 text-blue-600" />
             </Link>
           </Button>
-          <Button variant="ghost" size="icon" onClick={() => handleDelete(item.id)}>
+          <Button variant="ghost" size="icon" onClick={() => handleDeleteRequest(item.id)}>
             <Trash2 className="w-4 h-4 text-red-600" />
           </Button>
           <Button variant="ghost" size="icon" asChild>
@@ -147,6 +162,32 @@ export default function AdminBlogsPage() {
         onPageChange={setPage}
         emptyMessage="No blog posts found"
       />
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent className="max-w-[400px] p-6 rounded-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl! font-bold text-gray-900">Confirm Deletion</DialogTitle>
+            <DialogDescription className="text-sm text-gray-500 mt-2">
+              Are you sure you want to delete this blog post? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="mt-6 flex flex-row gap-3">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDeleteDialogOpen(false)}
+              className="flex-1 rounded-full"
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={confirmDelete}
+              className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-md shadow-red-200"
+            >
+              Delete Post
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

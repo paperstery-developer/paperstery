@@ -38,7 +38,7 @@ export default function AdminContactsPage() {
     },
   });
 
-  const contacts = resData?.contacts || resData || [];
+  const contacts = resData?.contacts || [];
   const totalPages = resData?.totalPages || 1;
 
   const columns = [
