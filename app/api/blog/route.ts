@@ -141,6 +141,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "10");
     const search = searchParams.get("search") || "";
     const status = searchParams.get("status") || undefined;
+    const exclude = searchParams.get("exclude") || undefined;
 
     const skip = (page - 1) * limit;
 
@@ -151,6 +152,9 @@ export async function GET(request: NextRequest) {
         { title: { contains: search, mode: "insensitive" } },
         { author: { contains: search, mode: "insensitive" } },
       ];
+    }
+    if (exclude) {
+      where.id = { not: exclude };
     }
 
     const [posts, total] = await Promise.all([
