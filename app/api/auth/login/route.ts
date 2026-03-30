@@ -2,9 +2,13 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    const rateLimitResponse = await checkRateLimit(request as any, 5, "login");
+    if (rateLimitResponse) return rateLimitResponse;
+
     const { email, password } = await request.json();
     
     if (!email || !password) {

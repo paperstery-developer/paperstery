@@ -2,9 +2,13 @@ import { NextRequest, NextResponse, after } from "next/server";
 import { sendEmail, emailTemplates } from "@/lib/nodemailer";
 import { saveContactForm } from "@/lib/db-services";
 import { prisma } from "@/lib/prisma";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
+    const rateLimitResponse = await checkRateLimit(request, 5, "contact");
+    if (rateLimitResponse) return rateLimitResponse;
+
     const body = await request.json();
     const { name, email, subject, message } = body;
 

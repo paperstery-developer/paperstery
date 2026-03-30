@@ -6,9 +6,13 @@ import {
   uploadToCloudinary,
   type CloudinaryUploadResult,
 } from "@/lib/cloudinary";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
+    const rateLimitResponse = await checkRateLimit(request, 3, "blog");
+    if (rateLimitResponse) return rateLimitResponse;
+
     const formData = await request.formData();
     const image = formData.get("image") as File;
     const title = formData.get("title") as string;

@@ -37,6 +37,7 @@
     "dotenv": "^17.2.3",
     "isomorphic-dompurify": "^3.0.0",
     "jsonwebtoken": "^9.0.3",
+    "lru-cache": "^11.2.7",
     "lucide-react": "^0.562.0",
     "motion": "^12.26.2",
     "next": "16.1.1",
