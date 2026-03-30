@@ -1,5 +1,22 @@
 import { BookOpen, Feather, Lightbulb } from "lucide-react";
 
+export interface DBPost {
+    slug: string | null;
+    id: string;
+    email: string;
+    createdAt: Date;
+    updatedAt: Date;
+    title: string;
+    author: string;
+    content: string;
+    category: string | null;
+    imageName: string;
+    imageUrl: string | null;
+    imageSize: number;
+    status: string;
+    cloudinaryId: string | null;
+}
+
 export type BlogPost = {
   id: string | number;
   slug: string;

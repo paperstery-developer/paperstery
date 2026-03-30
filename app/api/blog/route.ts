@@ -6,9 +6,13 @@ import {
   uploadToCloudinary,
   type CloudinaryUploadResult,
 } from "@/lib/cloudinary";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
+    const rateLimitResponse = await checkRateLimit(request, 3, "blog");
+    if (rateLimitResponse) return rateLimitResponse;
+
     const formData = await request.formData();
     const image = formData.get("image") as File;
     const title = formData.get("title") as string;
@@ -141,6 +145,7 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "10");
     const search = searchParams.get("search") || "";
     const status = searchParams.get("status") || undefined;
+    const exclude = searchParams.get("exclude") || undefined;
 
     const skip = (page - 1) * limit;
 
@@ -151,6 +156,9 @@ export async function GET(request: NextRequest) {
         { title: { contains: search, mode: "insensitive" } },
         { author: { contains: search, mode: "insensitive" } },
       ];
+    }
+    if (exclude) {
+      where.id = { not: exclude };
     }
 
     const [posts, total] = await Promise.all([

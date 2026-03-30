@@ -22,8 +22,8 @@ export const contactInfo = [
     icon: Clock,
     title: "Business Hours",
     details: [
-      { label: "Monday - Friday", value: "9:00 AM - 6:00 PM (EST)" },
-      { label: "Saturday", value: "10:00 AM - 2:00 PM (EST)" },
+      { label: "Monday - Friday", value: "9:00 AM - 6:00 PM" },
+      { label: "Saturday", value: "10:00 AM - 2:00 PM" },
       { label: "Sunday", value: "Closed" },
     ],
   },
@@ -32,10 +32,16 @@ export const contactInfo = [
 export const offices = [
   {
     location: "United States",
-    address: "6312 S. Fiddlers Green Circle, Suite 300E",
-    city: "Greenwood Village, Colorado 80111",
+    address: "1500 N Grant St, Ste R,",
+    city: "Denver, CO 80203",
     country: "United States of America",
   },
+  // {
+  //   location: "United States",
+  //   address: "6312 S. Fiddlers Green Circle, Suite 300E",
+  //   city: "Greenwood Village, Colorado 80111",
+  //   country: "United States of America",
+  // },
   {
     location: "Nigeria",
     address: "Plot 9, Gbagada Industrial Scheme",

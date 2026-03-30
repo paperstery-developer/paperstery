@@ -24,9 +24,9 @@ export const metadata: Metadata = {
     icon: "/icon.png",
   },
   openGraph: {
-    title: "Paperstery | Professional Book Publishing House",
+    title: "Paperstery | Dare Your Dreams. Publish With Us",
     description:
-      "Helping creatives and organizations produce world-class books.",
+      "Transform your ideas into world-class books. Publishing support for creatives, professionals, and organizations.",
     url: "https://paperstery.vercel.app",
     siteName: "Paperstery",
     locale: "en_US",
@@ -35,8 +35,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Paperstery | Professional Book Publishing House",
-    description:
-      "Helping creatives and organizations produce world-class books.",
+    description: "Dare your dreams. Publish with Paperstery.",
     images: ["./opengraph-image.jpg"],
   },
 };

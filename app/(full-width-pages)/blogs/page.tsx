@@ -5,6 +5,14 @@ import { getBlogPostsPaginated } from "@/lib/db-services";
 
 export const metadata: Metadata = {
   title: "Our Blog Posts | Paperstery",
+  description:
+    "Explore insights on writing, publishing, authorship, and building meaningful books that last.",
+  keywords: [
+    "writing tips",
+    "publishing advice",
+    "how to write a book",
+    "author insights",
+  ],
 };
 
 export default async function Page({ searchParams }: { searchParams: Promise<{ page?: string }> }) {

@@ -69,19 +69,25 @@ export function Footer() {
               </p>
               <div className="flex gap-3">
                 <Link
-                  href="#"
+                  href="https://www.facebook.com/p/Paperstery-100090700609619"
+                  target="_blank"
+                  rel="noreferrer noopener"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-all flex items-center justify-center"
                 >
                   <Facebook className="w-5 h-5" />
                 </Link>
                 <Link
-                  href="#"
+                  href="https://www.instagram.com/paperstery"
+                  target="_blank"
+                  rel="noreferrer noopener"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-all flex items-center justify-center"
                 >
                   <Instagram className="w-5 h-5" />
                 </Link>
                 <Link
-                  href="#"
+                  href="https://ng.linkedin.com/company/paperstery"
+                  target="_blank"
+                  rel="noreferrer noopener"
                   className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-all flex items-center justify-center"
                 >
                   <Linkedin className="w-5 h-5" />
@@ -220,7 +226,21 @@ export function Footer() {
           {/* Copyright */}
           <div className="pt-8 border-t border-white/10 text-center text-white/60 text-sm">
             <p>
-              &copy; {new Date().getFullYear()} Paperstery. All rights reserved.
+              &copy; {new Date().getFullYear()} Paperstery. All rights reserved
+              {" "}•{" "}
+              <Link
+                href="/privacy-policy"
+                className="hover:text-white transition-colors"
+              >
+                Privacy Policy
+              </Link>
+              {" "}•{" "}
+              <Link
+                href="/terms-of-service"
+                className="hover:text-white transition-colors"
+              >
+                Terms of Service
+              </Link>
             </p>
           </div>
         </div>

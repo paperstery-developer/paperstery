@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { deleteFromCloudinary, uploadToCloudinary, type CloudinaryUploadResult } from "@/lib/cloudinary";
 
+export const runtime = 'nodejs'; 
+export const maxDuration = 60;
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }

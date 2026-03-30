@@ -72,6 +72,22 @@ export function BlogPageSection({
     }
   };
 
+  const getPageNumbers = (currentPage: number, totalPages: number) => {
+    if (totalPages <= 5) {
+      return Array.from({ length: totalPages }, (_, i) => i + 1);
+    }
+    
+    if (currentPage <= 3) {
+      return [1, 2, 3, 4, '...', totalPages];
+    }
+    
+    if (currentPage >= totalPages - 2) {
+      return [1, '...', totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    }
+    
+    return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+  };
+
   return (
     <div className="min-h-screen bg-background">
 
@@ -264,7 +280,7 @@ export function BlogPageSection({
 
             {/* Pagination */}
             {totalP > 1 && (
-            <div className="flex justify-center gap-2 mt-12">
+            <div className="flex justify-center gap-2 mt-12 flex-wrap">
               <Button
                 variant="outline"
                 className="border-primary/30"
@@ -274,15 +290,19 @@ export function BlogPageSection({
                 Previous
               </Button>
               
-              {Array.from({ length: totalP }).map((_, i) => (
-                <Button
-                  key={i}
-                  variant={page === i + 1 ? "default" : "outline"}
-                  className={page === i + 1 ? "bg-primary text-white hover:bg-primary/90" : "border-primary/30"}
-                  onClick={() => setPage(i + 1)}
-                >
-                  {i + 1}
-                </Button>
+              {getPageNumbers(page, totalP).map((p, i) => (
+                p === '...' ? (
+                  <span key={`ellipsis-${i}`} className="flex items-end justify-center px-2 py-1 text-primary/60">...</span>
+                ) : (
+                  <Button
+                    key={p}
+                    variant={page === p ? "default" : "outline"}
+                    className={page === p ? "bg-primary text-white hover:bg-primary/90" : "border-primary/30"}
+                    onClick={() => setPage(p as number)}
+                  >
+                    {p}
+                  </Button>
+                )
               ))}
 
               <Button
