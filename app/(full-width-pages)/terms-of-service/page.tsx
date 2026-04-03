@@ -288,7 +288,7 @@ export default function TermsOfService() {
               <p className="text-sm font-semibold text-primary mb-4 uppercase tracking-wider">Table of Contents</p>
               <div className="grid sm:grid-cols-2 gap-2">
                 {sections.map((s) => (
-                  <a
+                  <Link
                     key={s.number}
                     href={`#tos-section-${s.number}`}
                     className="flex items-center gap-2 text-sm text-secondary hover:text-primary transition-colors group"
@@ -296,7 +296,7 @@ export default function TermsOfService() {
                     <span className="text-xs font-mono text-primary/50 group-hover:text-primary transition-colors">{s.number}</span>
                     <ChevronRight className="w-3 h-3 text-primary/30 group-hover:text-primary transition-colors" />
                     {s.title}
-                  </a>
+                  </Link>
                 ))}
               </div>
             </motion.div>

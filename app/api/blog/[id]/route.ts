@@ -63,9 +63,8 @@ export async function PUT(
     // Handle new image upload if provided
     if (image && image.size > 0) {
       // 1. Upload new image
-      const buffer = await image.arrayBuffer();
       const cloudinaryResponse: CloudinaryUploadResult = await uploadToCloudinary(
-        buffer,
+        image.stream(),
         image.name,
         {
           folder: "blog",

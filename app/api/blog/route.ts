@@ -73,11 +73,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // TODO: Upload image to Cloudinary
-    // Convert image to buffer and upload
-    const buffer = await image.arrayBuffer();
+    // Send image to Cloudinary
+    // Convert image to stream and upload
     const cloudinaryResponse: CloudinaryUploadResult = await uploadToCloudinary(
-      buffer,
+      image.stream(),
       image.name,
       {
         folder: "blog",
