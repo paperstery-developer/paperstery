@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     title: "Paperstery | Dare Your Dreams. Publish With Us",
     description:
       "Transform your ideas into world-class books. Publishing support for creatives, professionals, and organizations.",
-    url: "https://paperstery.vercel.app",
+    url: "https://paperstery.com",
     siteName: "Paperstery",
     locale: "en_US",
     type: "website",

@@ -1,3 +1,4 @@
+import { Readable } from "stream";
 import {
   v2 as cloudinary,
   UploadApiResponse,
@@ -13,7 +14,7 @@ cloudinary.config({
 });
 
 export async function uploadToCloudinary(
-  buffer: ArrayBuffer,
+  fileSource: ReadableStream | Buffer | ArrayBuffer,
   fileName: string,
   options: {
     folder?: string;
@@ -37,9 +38,16 @@ export async function uploadToCloudinary(
       },
     );
 
-    uploadStream.end(Buffer.from(buffer));
+    if (fileSource instanceof ReadableStream) {
+      Readable.fromWeb(fileSource as any).pipe(uploadStream);
+    } else if (Buffer.isBuffer(fileSource)) {
+      uploadStream.end(fileSource);
+    } else {
+      uploadStream.end(Buffer.from(fileSource));
+    }
   });
 }
+
 
 export async function deleteFromCloudinary(
   publicId: string,

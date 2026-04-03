@@ -71,12 +71,15 @@ export async function POST(request: NextRequest) {
     )
       fileType = "DOCX";
 
-    // Convert file to buffer and upload
-    const buffer = await file.arrayBuffer();
-    const cloudinaryResponse: CloudinaryUploadResult = await uploadToCloudinary(buffer, file.name, {
-      folder: "manuscripts",
-      resource_type: "raw"
-    });
+    // Convert file to stream and upload
+    const cloudinaryResponse: CloudinaryUploadResult = await uploadToCloudinary(
+      file.stream(),
+      file.name,
+      {
+        folder: "manuscripts",
+        resource_type: "raw",
+      }
+    );
 
     // Save to database
     await saveManuscript({
