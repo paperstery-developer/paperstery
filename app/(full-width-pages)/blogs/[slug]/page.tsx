@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { blogPosts, DBPost } from "@/lib/blog-data";
 import { prisma } from "@/lib/prisma";
-import DOMPurify from "isomorphic-dompurify";
+import sanitizeHtml from "sanitize-html";
 import DynamicBlogPage from "@/components/blog/DynamicBlogPage";
 
 interface Props {
@@ -44,12 +44,12 @@ export default async function Page({ params }: Props) {
   }
 
   const sanitizedDbPost = dbPost
-    ? { ...dbPost, content: DOMPurify.sanitize(dbPost.content) }
+    ? { ...dbPost, content: sanitizeHtml(dbPost.content) }
     : null;
 
   const sanitizedRelated = related?.map(p => ({
     ...p,
-    content: p.content ? DOMPurify.sanitize(p.content) : p.content
+    content: p.content ? sanitizeHtml(p.content) : p.content
   })) ?? null;
 
   return <DynamicBlogPage dbPost={sanitizedDbPost} related={sanitizedRelated} />;
