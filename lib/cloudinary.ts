@@ -39,7 +39,9 @@ export async function uploadToCloudinary(
     );
 
     if (fileSource instanceof ReadableStream) {
-      Readable.fromWeb(fileSource as any).pipe(uploadStream);
+      Readable.fromWeb(fileSource as any)
+        .on("error", reject)
+        .pipe(uploadStream);
     } else if (Buffer.isBuffer(fileSource)) {
       uploadStream.end(fileSource);
     } else {

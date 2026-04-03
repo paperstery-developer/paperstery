@@ -83,7 +83,7 @@ export default function AdminBlogsPage() {
       header: "Title",
       accessor: (item: BlogPost) => (
         <div className="max-w-xs">
-          <p className="font-medium truncate">{item.title}</p>
+          <p className="font-medium truncate text-wrap">{item.title}</p>
           <p className="text-xs text-gray-400">{item.author}</p>
         </div>
       ),

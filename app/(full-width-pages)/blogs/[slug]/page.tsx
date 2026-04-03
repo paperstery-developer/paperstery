@@ -1,7 +1,5 @@
 import { Metadata } from "next";
-import { blogPosts, BlogPost, DBPost } from "@/lib/blog-data";
-import { notFound } from "next/navigation";
-import BlogTemplate from "@/components/blog/BlogTemplate";
+import { blogPosts, DBPost } from "@/lib/blog-data";
 import { prisma } from "@/lib/prisma";
 import DOMPurify from "isomorphic-dompurify";
 import DynamicBlogPage from "@/components/blog/DynamicBlogPage";
@@ -45,7 +43,16 @@ export default async function Page({ params }: Props) {
     } catch(e) { console.error(e) }
   }
 
-  return <DynamicBlogPage dbPost={dbPost} related={related} />;
+  const sanitizedDbPost = dbPost
+    ? { ...dbPost, content: DOMPurify.sanitize(dbPost.content) }
+    : null;
+
+  const sanitizedRelated = related?.map(p => ({
+    ...p,
+    content: p.content ? DOMPurify.sanitize(p.content) : p.content
+  })) ?? null;
+
+  return <DynamicBlogPage dbPost={sanitizedDbPost} related={sanitizedRelated} />;
 }
 
 export async function generateStaticParams() {

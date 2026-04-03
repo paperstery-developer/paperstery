@@ -244,7 +244,7 @@ export default function EditBlog() {
                 >
                   <div className="border-2 border-dashed border-gray-200 rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer hover:border-primary/50 transition-colors bg-gray-50/50">
                     <p className="text-xs text-center text-gray-500">
-                      {file ? <span className="text-primary font-medium">{file.name}</span> : "Drag/drop new image to replace"}
+                      {file ? <span className="text-primary font-medium">{file.name}</span> : "Select new image to replace"}
                     </p>
                   </div>
                 </FileUploader>
