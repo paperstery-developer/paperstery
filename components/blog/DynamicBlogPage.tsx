@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BlogPost, DBPost } from "@/lib/blog-data";
 import { notFound } from "next/navigation";
 import BlogTemplate from "@/components/blog/BlogTemplate";
+import DOMPurify from "dompurify";
 
 interface Props {
     dbPost: DBPost | null;
@@ -42,7 +43,9 @@ export default function DynamicBlogPage({dbPost: initialDbPost, related: initial
 
 if (dbPost) {
   // Sanitize content
-  const sanitizedContent = dbPost.content;
+  const sanitizedContent = typeof window !== "undefined"
+    ? DOMPurify.sanitize(dbPost.content)
+    : dbPost.content;
   
   formattedPost = {
     id: dbPost.id as any,
@@ -78,11 +81,11 @@ if (dbPost) {
   })) : [];
 }
 
-if (formattedPost) {
-  if (typeof formattedPost.content === 'string') {
-    formattedPost.content = <div dangerouslySetInnerHTML={{ __html: formattedPost.content }} />;
-  }
-}
+// if (formattedPost) {
+//   if (typeof formattedPost.content === 'string') {
+//     formattedPost.content = <div dangerouslySetInnerHTML={{ __html: formattedPost.content }} />;
+//   }
+// }
 
   if (!formattedPost) notFound();
 
