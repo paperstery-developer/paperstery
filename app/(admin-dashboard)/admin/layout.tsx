@@ -7,6 +7,8 @@ import Logo from "@/components/shared/Logo";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import LogoWhite from "@/components/shared/LogoWhite";
+import logoPrimary from '@/assets/icons/logo-primary.svg';
+import Image from "next/image";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -39,7 +41,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <div className="min-h-screen bg-gray-50 flex">
       {/* Mobile sidebar toggle */}
       <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-white border-b z-50 flex items-center justify-between px-4">
-        <LogoWhite />
+        <Logo />
         <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(!sidebarOpen)}>
           {sidebarOpen ? <X /> : <Menu />}
         </Button>
@@ -48,7 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className={`fixed inset-y-0 left-0 bg-white border-r w-64 z-40 transform transition-transform duration-200 ease-in-out lg:translate-x-0 ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} flex flex-col`}>
         <div className="h-16 flex items-center px-6 border-b">
-          <Logo />
+          <Image src={logoPrimary} alt="Paperstery Logo" />
         </div>
         
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">

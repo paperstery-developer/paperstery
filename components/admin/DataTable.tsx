@@ -35,7 +35,8 @@ export function DataTable<T extends { id: string }>({
 }: DataTableProps<T>) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div className="overflow-x-auto">
+      {/* Desktop Table View */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
             <tr className="bg-gray-50 border-b border-gray-100">
@@ -81,6 +82,62 @@ export function DataTable<T extends { id: string }>({
           </tbody>
         </table>
       </div>
+
+      {/* Mobile Card Layout */}
+      <div className="md:hidden">
+        {loading ? (
+          <div className="px-6 py-12 text-center border-b border-gray-100">
+            <div className="flex flex-col items-center gap-2">
+              <Loader2 className="w-8 h-8 text-primary animate-spin" />
+              <p className="text-gray-500 text-sm">Loading data...</p>
+            </div>
+          </div>
+        ) : data.length === 0 ? (
+          <div className="px-6 py-12 text-center text-gray-500 text-sm border-b border-gray-100">
+            {emptyMessage}
+          </div>
+        ) : (
+          <div className="divide-y divide-gray-100">
+            {data.map((item) => (
+              <div key={item.id} className="p-4 space-y-4 hover:bg-gray-50/50 transition-colors">
+                {columns.map((column, index) => {
+                  const content = typeof column.accessor === "function"
+                    ? column.accessor(item)
+                    : (item[column.accessor] as React.ReactNode);
+
+                  // If it's the first column, treat it as a header
+                  if (index === 0) {
+                    return (
+                      <div key={index} className="flex justify-between items-start gap-4">
+                        <div className="flex-1 min-w-0">{content}</div>
+                      </div>
+                    );
+                  }
+
+                  // If it's the last column (Actions), show it as a footer within the card
+                  if (index === columns.length - 1 && column.header.toLowerCase() === "actions") {
+                    return (
+                      <div key={index} className="pt-2 flex justify-end border-t border-gray-50">
+                        {content}
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div key={index} className="flex flex-col gap-1">
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                        {column.header}
+                      </span>
+                      <div className="text-sm text-gray-900">{content}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
 
       {totalPages > 1 && (
         <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between gap-4 bg-gray-50/30">
