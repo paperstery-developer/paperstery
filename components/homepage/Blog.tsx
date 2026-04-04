@@ -61,50 +61,67 @@ export function Blog() {
         </motion.div>
 
         {posts.length > 0 ? (
-          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {posts.map((post: any, index: number) => {
-              const Icon = iconMap[post.category] || iconMap.default;
-              return (
-                <motion.div
-                  key={post.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.15 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                  className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all h-full flex flex-col"
-                >
-                  <div className="relative h-64 overflow-hidden">
-                    <Image
-                      src={post.imageUrl || "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1470&auto=format&fit=crop"}
-                      alt={post.title}
-                      className="w-full h-full object-cover"
-                      width={1080}
-                      height={720}
-                    />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4">
-                      <div className="w-12 h-12 rounded-lg bg-white/90 flex items-center justify-center">
-                        <Icon className="w-6 h-6 text-primary" />
+          <div className="flex flex-col gap-4">
+            <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              {posts.map((post: any, index: number) => {
+                const Icon = iconMap[post.category] || iconMap.default;
+                return (
+                  <motion.div
+                    key={post.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.15 }}
+                    viewport={{ once: true }}
+                    whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                    className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all h-full flex flex-col"
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <Image
+                        src={post.imageUrl || "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1470&auto=format&fit=crop"}
+                        alt={post.title}
+                        className="w-full h-full object-cover"
+                        width={1080}
+                        height={720}
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent"></div>
+                      <div className="absolute bottom-4 left-4">
+                        <div className="w-12 h-12 rounded-lg bg-white/90 flex items-center justify-center">
+                          <Icon className="w-6 h-6 text-primary" />
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="p-6 flex flex-col flex-grow">
-                    <h3 className="mb-3 text-xl text-primary line-clamp-2">{post.title}</h3>
-                    <div className="text-base mb-4 flex-grow line-clamp-3" dangerouslySetInnerHTML={{ __html: post.content.substring(0, 150) + "..." }} />
-                    <Link href={`/blogs/${post.id}`}>
-                      <Button
-                        variant="link"
-                        className="text-primary hover:text-primary/80 p-0 h-auto"
-                      >
-                        Read More →
-                      </Button>
-                    </Link>
-                </div>
-                </motion.div>
-              );
-            })}
+                    <div className="p-6 flex flex-col flex-grow">
+                      <h3 className="mb-3 text-xl text-primary line-clamp-2">{post.title}</h3>
+                      <div className="text-base mb-4 flex-grow line-clamp-3" dangerouslySetInnerHTML={{ __html: post.content.substring(0, 150) + "..." }} />
+                      <Link href={`/blogs/${post.id}`}>
+                        <Button
+                          variant="link"
+                          className="text-primary hover:text-primary/80 p-0 h-auto"
+                        >
+                          Read More →
+                        </Button>
+                      </Link>
+                  </div>
+                  </motion.div>
+                );
+              })}
+            </div>
+              <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6, delay: 0.5 }}
+                            viewport={{ once: true }}
+                            className="text-center mt-12"
+                          >
+                            <Button
+                              size="lg"
+                              asChild
+                              className="bg-primary text-white hover:bg-primary/90 transition-all shadow-md text-base px-8"
+                            >
+                              <Link href="/blogs">View All</Link>
+                            </Button>
+                          </motion.div>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-center">

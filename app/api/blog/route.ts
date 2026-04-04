@@ -10,7 +10,7 @@ import { checkRateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
-    const rateLimitResponse = await checkRateLimit(request, 3, "blog");
+    const rateLimitResponse = await checkRateLimit(request, 5, "blog");
     if (rateLimitResponse) return rateLimitResponse;
 
     const formData = await request.formData();
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
       imageSize: image.size,
       imageUrl: cloudinaryResponse?.secure_url,
       cloudinaryId: cloudinaryResponse?.public_id,
-      status: "published",
+      status: "pending",
     });
 
     // Offload emails to background

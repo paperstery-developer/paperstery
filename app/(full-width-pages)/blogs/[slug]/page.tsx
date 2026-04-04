@@ -43,13 +43,22 @@ export default async function Page({ params }: Props) {
     } catch(e) { console.error(e) }
   }
 
+  const sanitizeOptions: sanitizeHtml.IOptions = {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      img: ["src", "alt", "width", "height", "style", "class"],
+    },
+    allowedSchemes: ["http", "https", "ftp", "mailto"],
+  };
+
   const sanitizedDbPost = dbPost
-    ? { ...dbPost, content: sanitizeHtml(dbPost.content) }
+    ? { ...dbPost, content: sanitizeHtml(dbPost.content, sanitizeOptions) }
     : null;
 
   const sanitizedRelated = related?.map(p => ({
     ...p,
-    content: p.content ? sanitizeHtml(p.content) : p.content
+    content: p.content ? sanitizeHtml(p.content, sanitizeOptions) : p.content
   })) ?? null;
 
   return <DynamicBlogPage dbPost={sanitizedDbPost} related={sanitizedRelated} />;

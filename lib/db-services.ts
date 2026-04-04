@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { slugify } from "./utils";
 
 // Subscription Services
 export async function saveSubscription(email: string) {
@@ -93,9 +94,23 @@ export async function saveBlogPost(data: {
   cloudinaryId?: string;
   status?: string;
 }) {
+  // Generate a unique slug
+  let slug = slugify(data.title);
+  
+  // Check if slug exists
+  const existingPost = await prisma.blogPost.findUnique({
+    where: { slug },
+  });
+
+  if (existingPost) {
+    // Append a short random string if it exists
+    slug = `${slug}-${Math.random().toString(36).substring(2, 7)}`;
+  }
+
   return prisma.blogPost.create({
     data: {
       ...data,
+      slug,
       category: data.category || null,
       imageUrl: data.imageUrl || null,
       cloudinaryId: data.cloudinaryId || null,
