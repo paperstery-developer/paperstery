@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter, useParams } from "next/navigation";
 import { toast } from "sonner";
-import { Loader2, ArrowLeft, Save, Bold, Italic, Link as LinkIcon, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, Underline as UnderlineIcon, Image as ImageIcon, Heading2, Heading3 } from "lucide-react";
+import { Loader2, ArrowLeft, Save, Bold, Italic, Link as LinkIcon, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, Underline as UnderlineIcon, Image as ImageIcon, Heading2, Heading3, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
@@ -16,6 +16,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FileUploader } from "react-drag-drop-files";
 import { cn } from "@/lib/utils";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogFooter, 
+  DialogHeader, 
+  DialogTitle 
+} from "@/components/ui/dialog";
 
 const fileTypes = ["JPG", "PNG", "GIF", "WEBP"];
 
@@ -33,6 +41,7 @@ export default function EditBlog() {
   });
   const [file, setFile] = useState<File | null>(null);
   const [currentImageUrl, setCurrentImageUrl] = useState("");
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -112,6 +121,22 @@ export default function EditBlog() {
     },
     onError: (err: any) => {
       toast.error(err.message || "Failed to update blog");
+    }
+  });
+  
+  const { mutate: deletePost, isPending: isDeleting } = useMutation({
+    mutationFn: async () => {
+      const res = await fetch(`/api/blog/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed to delete blog post");
+      return res.json();
+    },
+    onSuccess: () => {
+      toast.success("Blog post deleted");
+      setIsDeleteDialogOpen(false);
+      router.push("/admin/blogs");
+    },
+    onError: () => {
+      toast.error("Error deleting blog post");
     }
   });
 
@@ -337,12 +362,54 @@ export default function EditBlog() {
 
         <div className="pt-4 flex justify-end gap-4">
           <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+          <Button 
+            type="button" 
+            variant="outline" 
+            onClick={() => setIsDeleteDialogOpen(true)}
+            className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+          >
+            <Trash2 className="w-4 h-4 mr-2" /> Delete Post
+          </Button>
           <Button type="submit" disabled={saving} className="bg-primary hover:bg-primary/90 text-white px-8">
             {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
             {saving ? "Saving..." : "Save Changes"}
           </Button>
         </div>
       </form>
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent className="max-w-[400px] p-6 rounded-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl! font-bold text-gray-900">Confirm Deletion</DialogTitle>
+            <DialogDescription className="text-sm text-gray-500 mt-2">
+              Are you sure you want to delete this blog post? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="mt-6 flex flex-row gap-3">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsDeleteDialogOpen(false)}
+              className="flex-1 rounded-full"
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={() => deletePost()}
+              disabled={isDeleting}
+              className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-md shadow-red-200"
+            >
+              {isDeleting ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                "Delete Post"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

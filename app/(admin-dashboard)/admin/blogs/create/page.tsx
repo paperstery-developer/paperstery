@@ -181,6 +181,7 @@ export default function CreateBlog() {
             <FileUploader 
               handleChange={(file: File | File[]) => setFile(Array.isArray(file) ? file[0] : file)} 
               name="image" 
+              maxSize={5}
               types={fileTypes}
               classes="drop-zone-custom"
             >

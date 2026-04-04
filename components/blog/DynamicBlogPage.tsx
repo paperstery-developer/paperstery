@@ -81,11 +81,11 @@ if (dbPost) {
   })) : [];
 }
 
-// if (formattedPost) {
-//   if (typeof formattedPost.content === 'string') {
-//     formattedPost.content = <div dangerouslySetInnerHTML={{ __html: formattedPost.content }} />;
-//   }
-// }
+if (formattedPost) {
+  if (typeof formattedPost.content === 'string') {
+    formattedPost.content = <div dangerouslySetInnerHTML={{ __html: formattedPost.content }} />;
+  }
+}
 
   if (!formattedPost) notFound();
 

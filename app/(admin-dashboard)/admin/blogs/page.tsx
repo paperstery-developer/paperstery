@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/admin/DataTable";
 import { toast } from "sonner";
 import { format } from "date-fns";
+import { Loader2 } from "lucide-react";
 import { 
   Dialog, 
   DialogContent, 
@@ -48,7 +49,7 @@ export default function AdminBlogsPage() {
     },
   });
 
-  const { mutate: deletePost } = useMutation({
+  const { mutate: deletePost, isPending: isDeleting } = useMutation({
     mutationFn: async (id: string) => {
       const res = await fetch(`/api/blog/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete blog post");
@@ -56,6 +57,8 @@ export default function AdminBlogsPage() {
     },
     onSuccess: () => {
       toast.success("Blog post deleted");
+      setIsDeleteDialogOpen(false);
+      setPostToDelete(null);
       refetch();
     },
     onError: () => {
@@ -71,8 +74,6 @@ export default function AdminBlogsPage() {
   const confirmDelete = () => {
     if (postToDelete) {
       deletePost(postToDelete);
-      setIsDeleteDialogOpen(false);
-      setPostToDelete(null);
     }
   };
   const posts = data?.posts || [];
@@ -181,9 +182,17 @@ export default function AdminBlogsPage() {
             </Button>
             <Button 
               onClick={confirmDelete}
+              disabled={isDeleting}
               className="flex-1 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-md shadow-red-200"
             >
-              Delete Post
+              {isDeleting ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Deleting...
+                </>
+              ) : (
+                "Delete Post"
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>
