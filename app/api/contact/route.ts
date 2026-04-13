@@ -37,7 +37,10 @@ export async function POST(request: NextRequest) {
         // Send email to admin
         const adminTemplate = emailTemplates.contact(name, message);
         await sendEmail({
-          to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "",
+          to: [
+            process.env.ADMIN_EMAIL ? `Admin <${process.env.ADMIN_EMAIL}>` : null,
+            process.env.SUPPORT_EMAIL ? `Support <${process.env.SUPPORT_EMAIL}>` : null,
+          ].filter(Boolean) as string[],
           subject: adminTemplate.subject,
           html: adminTemplate.html,
         });

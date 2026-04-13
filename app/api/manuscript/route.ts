@@ -108,7 +108,14 @@ export async function POST(request: NextRequest) {
         // Send notification email to admin
         const adminTemplate = emailTemplates.manuscriptAdminNotification(author, email, title, file.name, description);
         await sendEmail({
-          to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "",
+          to: [
+            process.env.ADMIN_EMAIL
+              ? `Paperstery Admin <${process.env.ADMIN_EMAIL}>`
+              : null,
+            process.env.SUBMISSION_EMAIL
+              ? `Paperstery Submission <${process.env.SUBMISSION_EMAIL}>`
+              : null,
+          ].filter(Boolean) as string[],
           subject: adminTemplate.subject,
           html: adminTemplate.html,
         });

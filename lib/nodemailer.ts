@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 });
 
 interface EmailOptions {
-  to: string;
+  to: string | string[];
   subject: string;
   html: string;
   text?: string;
@@ -22,7 +22,7 @@ interface EmailOptions {
 export async function sendEmail(options: EmailOptions) {
   try {
     const mailOptions = {
-      from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+      from: `"PAPERSTERY" <${process.env.EMAIL_FROM}>`,
       ...options,
     };
 
@@ -39,7 +39,7 @@ const BRAND_COLOR = "#32007a";
 const BRAND_NAME = "Paperstery";
 const LOGO_URL = "https://res.cloudinary.com/dwofq1blq/image/upload/v1772991313/logo-with-bg_fvmtre.png";
 const WEBSITE_URL = "https://paperstery.com";
-const CONTACT_EMAIL = "mailto:https://paperstery.com/contact";
+const CONTACT_EMAIL = "mailto:info@paperstery.com";
 
 const emailLayout = (content: string, title: string) => `
 <!DOCTYPE html>
@@ -94,7 +94,7 @@ export const emailTemplates = {
     html: emailLayout(`
       <h1>Welcome to the Community!</h1>
       <p>Thank you for subscribing to ${BRAND_NAME}. We're thrilled to have you with us.</p>
-      <p>You'll be the first to receive our latest updates, publishing tips, and exclusive insights from the world of authorship.</p>
+      <p>You'll be the first to receive our latest updates, publishing tips, and exclusive insights from the world of books.</p>
       <div class="divider"></div>
       <p>If you have any questions, feel free to reply to this email.</p>
       <p>Best regards,<br>The ${BRAND_NAME} Team</p>
