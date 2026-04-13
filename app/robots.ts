@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: "/private/",
       },
     ],
-    sitemap: "https://www.paperstery.com/sitemap.xml",
+    sitemap: "https://paperstery.com/sitemap.xml",
   };
 }

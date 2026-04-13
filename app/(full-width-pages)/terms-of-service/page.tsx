@@ -10,7 +10,9 @@ const sections = [
     icon: BookOpen,
     content: (
       <p className="text-secondary leading-relaxed">
-        Welcome to <strong className="text-primary">Paperstery</strong>. By accessing or using our website and services, you agree to these Terms of Service. If you do not agree, please do not use our platform.
+        Welcome to <strong className="text-primary">Paperstery</strong>. By
+        accessing or using our website and services, you agree to these Terms of
+        Service. If you do not agree, please do not use our platform.
       </p>
     ),
   },
@@ -20,7 +22,9 @@ const sections = [
     icon: CheckCircle,
     content: (
       <div>
-        <p className="text-secondary mb-4">Paperstery provides publishing-related services, including:</p>
+        <p className="text-secondary mb-4">
+          Paperstery provides publishing-related services, including:
+        </p>
         <ul className="space-y-2 mb-4">
           {[
             "Manuscript development and editing",
@@ -35,7 +39,9 @@ const sections = [
             </li>
           ))}
         </ul>
-        <p className="text-secondary text-sm italic">All services are provided based on individual agreements or contracts.</p>
+        <p className="text-secondary text-sm italic">
+          All services are provided based on individual agreements or contracts.
+        </p>
       </div>
     ),
   },
@@ -45,7 +51,9 @@ const sections = [
     icon: FileSignature,
     content: (
       <div>
-        <p className="text-secondary mb-4">By submitting a manuscript, proposal, or idea:</p>
+        <p className="text-secondary mb-4">
+          By submitting a manuscript, proposal, or idea:
+        </p>
         <ul className="space-y-2 mb-4">
           {[
             "You confirm that the work is yours or you have the right to submit it",
@@ -58,7 +66,9 @@ const sections = [
             </li>
           ))}
         </ul>
-        <p className="text-secondary">We review submissions at our discretion.</p>
+        <p className="text-secondary">
+          We review submissions at our discretion.
+        </p>
       </div>
     ),
   },
@@ -69,12 +79,15 @@ const sections = [
     content: (
       <div>
         <p className="text-secondary mb-4">
-          You retain <strong className="text-primary">ownership of your work</strong> unless otherwise stated in a written agreement.
+          You retain{" "}
+          <strong className="text-primary">ownership of your work</strong>{" "}
+          unless otherwise stated in a written agreement.
         </p>
         <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
           <p className="text-primary font-medium text-sm flex items-center gap-2">
             <Scale className="w-4 h-4" />
-            No rights are transferred to Paperstery unless explicitly agreed upon in a contract.
+            No rights are transferred to Paperstery unless explicitly agreed
+            upon in a contract.
           </p>
         </div>
       </div>
@@ -99,7 +112,9 @@ const sections = [
             </li>
           ))}
         </ul>
-        <p className="text-secondary text-sm italic">Publishing outcomes depend on multiple factors beyond our control.</p>
+        <p className="text-secondary text-sm italic">
+          Publishing outcomes depend on multiple factors beyond our control.
+        </p>
       </div>
     ),
   },
@@ -127,6 +142,36 @@ const sections = [
   },
   {
     number: "07",
+    title: "Refund Policy",
+    icon: CreditCard,
+    content: (
+      <div className="space-y-4 text-secondary">
+        <p>
+          Payments are generally non-refundable once a project has commenced,
+          as resources are allocated and work begins upon confirmation.
+        </p>
+        <p>
+          Where a project is cancelled before any work has started, a full
+          refund may be granted where a reasonable basis for cancellation is
+          provided.
+        </p>
+        <p>
+          Once work has started, payments will not be refunded, as time and
+          resources have already been committed to the project.
+        </p>
+        <p>
+          Where concerns arise, we will make reasonable efforts to address them
+          within the agreed scope of work.
+        </p>
+        <p>
+          Any exceptions to this policy are considered at the sole discretion
+          of Paperstery Limited.
+        </p>
+      </div>
+    ),
+  },
+  {
+    number: "08",
     title: "User Conduct",
     icon: UserX,
     content: (
@@ -148,13 +193,14 @@ const sections = [
     ),
   },
   {
-    number: "08",
+    number: "09",
     title: "Communication",
     icon: MessageSquare,
     content: (
       <div>
         <p className="text-secondary mb-4">
-          By contacting us or submitting forms, you agree that we may respond via:
+          By contacting us or submitting forms, you agree that we may respond
+          via:
         </p>
         <ul className="space-y-2 mb-4">
           {["Email", "Phone"].map((item, i) => (
@@ -164,12 +210,14 @@ const sections = [
             </li>
           ))}
         </ul>
-        <p className="text-secondary">You may opt out of communications at any time.</p>
+        <p className="text-secondary">
+          You may opt out of communications at any time.
+        </p>
       </div>
     ),
   },
   {
-    number: "09",
+    number: "10",
     title: "Limitation of Liability",
     icon: ShieldOff,
     content: (
@@ -200,7 +248,11 @@ const sections = [
       <div>
         <p className="text-secondary mb-4">We reserve the right to:</p>
         <ul className="space-y-2">
-          {["Decline submissions", "Refuse service", "Terminate engagements where necessary"].map((item, i) => (
+          {[
+            "Decline submissions",
+            "Refuse service",
+            "Terminate engagements where necessary",
+          ].map((item, i) => (
             <li key={i} className="flex items-start gap-2 text-secondary">
               <ChevronRight className="w-4 h-4 text-primary mt-0.5 shrink-0" />
               {item}
@@ -216,7 +268,9 @@ const sections = [
     icon: Gavel,
     content: (
       <p className="text-secondary leading-relaxed">
-        These Terms are governed by applicable laws in jurisdictions where Paperstery operates, including the <strong className="text-primary">United States and Nigeria</strong>.
+        These Terms are governed by applicable laws in jurisdictions where
+        Paperstery operates, including the{" "}
+        <strong className="text-primary">United States and Nigeria</strong>.
       </p>
     ),
   },
@@ -226,7 +280,8 @@ const sections = [
     icon: RefreshCw,
     content: (
       <p className="text-secondary leading-relaxed">
-        We may update these Terms at any time. Continued use of our website constitutes acceptance of the updated Terms.
+        We may update these Terms at any time. Continued use of our website
+        constitutes acceptance of the updated Terms.
       </p>
     ),
   },
@@ -236,7 +291,9 @@ const sections = [
     icon: Mail,
     content: (
       <div>
-        <p className="text-secondary mb-4">For any questions regarding these Terms:</p>
+        <p className="text-secondary mb-4">
+          For any questions regarding these Terms:
+        </p>
         <Link
           href="mailto:info@paperstery.com"
           className="inline-flex items-center gap-2 text-primary font-medium hover:underline"

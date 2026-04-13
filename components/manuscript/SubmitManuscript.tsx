@@ -210,7 +210,7 @@ export function SubmitManuscript() {
                   htmlFor="manuscript"
                   className="block text-sm font-medium text-primary mb-2"
                 >
-                  Upload Manuscript (Optional)
+                  Upload Manuscript *
                 </label>
                 <FileUploader
                   handleChange={handleFileChange}
@@ -218,6 +218,7 @@ export function SubmitManuscript() {
                   types={fileTypes}
                   multiple={false}
                   maxSize={5}
+                  required
                   label="Click to upload manuscript or drop the file here"
                   uploadedLabel="Manuscript uploaded successfully!"
                   hoverTitle="Drop your manuscript here..."
