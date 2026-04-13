@@ -168,7 +168,7 @@ function ResetPasswordForm() {
 
 export default function ResetPassword() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 border-t-4 border-primary">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full p-8 bg-white rounded-2xl shadow-xl border border-gray-100">
         <div className="flex justify-center mb-6">
           <Logo />

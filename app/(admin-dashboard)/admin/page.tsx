@@ -1,10 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { BookOpen, FileText, Mail, Users } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Manuscript, ContactForm } from "@/definitions";
+import CreateAdminDialog from "@/components/admin/CreateAdminDialog";
+import { getAdminSessionFromCookies } from "@/lib/admin-session";
 
 export default async function AdminDashboard() {
+  const session = await getAdminSessionFromCookies();
   const [blogsCount, manuscriptsCount, contactsCount, subsCount] = await Promise.all([
     prisma.blogPost.count(),
     prisma.manuscript.count(),
@@ -33,9 +35,7 @@ export default async function AdminDashboard() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl! font-bold text-gray-900">Dashboard Overview</h1>
-        <Button asChild className="bg-primary hover:bg-primary/90 text-white">
-          <Link href="/admin/blogs/create">Write New Blog</Link>
-        </Button>
+        <CreateAdminDialog canCreateAdmins={session?.role === "superadmin"} />
       </div>
       
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
