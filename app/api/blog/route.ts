@@ -112,7 +112,10 @@ export async function POST(request: NextRequest) {
         // Send notification email to admin
         const adminTemplate = emailTemplates.blogAdminNotification(author, email, title, category, content.length);
         await sendEmail({
-          to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER || "",
+          to: [
+            process.env.ADMIN_EMAIL ? `Paperstery Admin <${process.env.ADMIN_EMAIL}>` : null,
+            process.env.EMAIL_USER ? `Paperstery <${process.env.EMAIL_USER}>` : null,
+          ].filter(Boolean) as string[],
           subject: adminTemplate.subject,
           html: adminTemplate.html,
         });
