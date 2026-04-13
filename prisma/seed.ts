@@ -17,8 +17,8 @@ export const prisma =
 
 
 async function main() {
-  const superAdminEmail = 'abdrahmanoladimeji02@gmail.com';
-  const plainPassword = 'PapersteryAdmin@101';
+  const superAdminEmail = 'admin@paperstery.com';
+  const plainPassword = 'Paperstery@dmin';
   
   const existingAdmin = await prisma.admin.findUnique({
     where: { email: superAdminEmail },
