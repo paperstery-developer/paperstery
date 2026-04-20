@@ -269,7 +269,7 @@ const sections = [
     content: (
       <p className="text-secondary leading-relaxed">
         These Terms are governed by applicable laws in jurisdictions where
-        Paperstery operates, including the{" "}
+        Paperstery Limited operates, including the{" "}
         <strong className="text-primary">United States and Nigeria</strong>.
       </p>
     ),
@@ -396,19 +396,6 @@ export default function TermsOfService() {
                 </motion.div>
               ))}
             </div>
-
-            {/* Footer tagline */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="mt-16 text-center py-10 border-t border-light-primary"
-            >
-              <p className="text-primary font-semibold text-lg italic">
-                Paperstery — We do not just create books; we create legacies.
-              </p>
-            </motion.div>
           </div>
         </div>
       </section>

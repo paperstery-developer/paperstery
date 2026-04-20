@@ -49,7 +49,7 @@ export function About() {
             <h2 className="mb-6 text-primary">Who We Are</h2>
 
             <p className="mb-4">
-              Paperstery is an independent publishing company incorporated in both the
+              Paperstery Limited is an independent publishing company incorporated in both the
               United States and Nigeria, helping creatives, professionals, and
               organizations produce world-class books ranging from literary and
               creative works to academic and professional publications.
