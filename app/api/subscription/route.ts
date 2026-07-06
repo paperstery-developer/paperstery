@@ -3,6 +3,7 @@ import { sendEmail, emailTemplates } from "@/lib/nodemailer";
 import { prisma } from "@/lib/prisma";
 import { saveSubscription, getSubscription } from "@/lib/db-services";
 import { checkRateLimit } from "@/lib/rate-limit";
+import { addSubscriberToMailchimp } from "@/lib/mailchimp";
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,10 +34,9 @@ export async function POST(request: NextRequest) {
     // Save to database
     await saveSubscription(email);
 
-    // Offload emails to background
+    // Offload background tasks (email + Mailchimp sync)
     after(async () => {
       try {
-        // Send confirmation email to subscriber
         const template = emailTemplates.subscription(email);
         await sendEmail({
           to: email,
@@ -47,6 +47,8 @@ export async function POST(request: NextRequest) {
       } catch (err) {
         console.error("Background email error (subscription):", err);
       }
+
+      await addSubscriberToMailchimp(email);
     });
 
     return NextResponse.json(
