@@ -2,9 +2,9 @@ import { prisma } from "@/lib/prisma";
 import { slugify } from "./utils";
 
 // Subscription Services
-export async function saveSubscription(email: string) {
+export async function saveSubscription(email: string, firstName?: string) {
   return prisma.subscription.create({
-    data: { email },
+    data: { email, firstName: firstName || null },
   });
 }
 

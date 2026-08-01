@@ -4,9 +4,9 @@
  * Run with:
  *   npx ts-node --compiler-options '{"module":"CommonJS"}' scripts/sync-subscribers-to-mailchimp.ts
  */
+import "dotenv/config";
 import { PrismaClient } from "@prisma/client";
 import mailchimp from "@mailchimp/mailchimp_marketing";
-import "dotenv/config";
 
 const prisma = new PrismaClient();
 
@@ -25,19 +25,19 @@ async function main() {
   mailchimp.setConfig({ apiKey, server: serverPrefix });
 
   const subscriptions = await prisma.subscription.findMany();
-  const emails = subscriptions.map((s) => s.email);
 
-  console.log(`Found ${emails.length} subscriber(s) in the database.`);
+  console.log(`Found ${subscriptions.length} subscriber(s) in the database.`);
 
-  if (emails.length === 0) {
+  if (subscriptions.length === 0) {
     console.log("Nothing to sync.");
     return;
   }
 
-  const members = emails.map((email) => ({
-    email_address: email,
+  const members = subscriptions.map((s) => ({
+    email_address: s.email,
     email_type: "html" as const,
     status: "subscribed" as const,
+    ...(s.firstName && { merge_fields: { FNAME: s.firstName } }),
   }));
 
   const raw = await mailchimp.lists.batchListMembers(audienceId, {

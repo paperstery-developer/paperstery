@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     if (rateLimitResponse) return rateLimitResponse;
 
     const body = await request.json();
-    const { email } = body;
+    const { email, firstName } = body;
 
     // Validate email
     if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
@@ -32,12 +32,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Save to database
-    await saveSubscription(email);
+    await saveSubscription(email, firstName || undefined);
 
     // Offload background tasks (email + Mailchimp sync)
     after(async () => {
       try {
-        const template = emailTemplates.subscription(email);
+        const template = emailTemplates.subscription(email, firstName || undefined);
         await sendEmail({
           to: email,
           subject: template.subject,
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest) {
         console.error("Background email error (subscription):", err);
       }
 
-      await addSubscriberToMailchimp(email);
+      await addSubscriberToMailchimp(email, firstName || undefined);
     });
 
     return NextResponse.json(

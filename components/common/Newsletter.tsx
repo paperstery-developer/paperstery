@@ -17,14 +17,15 @@ import {
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const { mutate: subscribe, isPending: subLoading } = useMutation({
-    mutationFn: async (email: string) => {
+    mutationFn: async (payload: { email: string; firstName?: string }) => {
       const res = await fetch("/api/subscription", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to subscribe");
@@ -33,6 +34,7 @@ export function Newsletter() {
     onSuccess: () => {
       setShowModal(true);
       setEmail("");
+      setFirstName("");
     },
     onError: (err: any) => {
       toast.error(err.message || "An error occurred");
@@ -45,7 +47,7 @@ export function Newsletter() {
       toast.error("Please enter an email address");
       return;
     }
-    subscribe(email);
+    subscribe({ email, firstName: firstName.trim() || undefined });
   };
 
   return (
@@ -68,25 +70,34 @@ export function Newsletter() {
 
             <form
               onSubmit={handleSubscribe}
-              className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto"
+              className="flex flex-col gap-3 max-w-lg mx-auto"
             >
               <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email address"
-                className="sm:flex-1 bg-white border-white text-primary placeholder:text-gray-400"
-                required
+                type="text"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                placeholder="First name (optional)"
+                className="bg-white border-white text-primary placeholder:text-gray-400"
               />
-              <Button
-                type="submit"
-                disabled={subLoading}
-                size="lg"
-                variant={"outline"}
-                className="bg-white text-primary hover:bg-white/90 border-primary/30 hover:border-primary gap-2 w-full sm:w-auto"
-              >
-                {subLoading ? "Subscribing..." : "Subscribe"}
-              </Button>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email address"
+                  className="sm:flex-1 bg-white border-white text-primary placeholder:text-gray-400"
+                  required
+                />
+                <Button
+                  type="submit"
+                  disabled={subLoading}
+                  size="lg"
+                  variant={"outline"}
+                  className="bg-white text-primary hover:bg-white/90 border-primary/30 hover:border-primary gap-2 w-full sm:w-auto"
+                >
+                  {subLoading ? "Subscribing..." : "Subscribe"}
+                </Button>
+              </div>
             </form>
 
             <p className="text-xs text-primary mt-4">
@@ -103,8 +114,10 @@ export function Newsletter() {
               Successfully Subscribed!
             </DialogTitle>
             <DialogDescription className="text-center text-secondary pt-2">
-              Thank you for subscribing to our newsletter. We&apos;ll keep you
-              updated with the latest insights.
+              {firstName
+                ? `Welcome, ${firstName}! Thank you for subscribing to our newsletter.`
+                : "Thank you for subscribing to our newsletter."}{" "}
+              We&apos;ll keep you updated with the latest insights.
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-center mt-4">

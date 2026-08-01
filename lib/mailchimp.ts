@@ -12,13 +12,14 @@ function getClient() {
   return mailchimp;
 }
 
-export async function addSubscriberToMailchimp(email: string): Promise<void> {
+export async function addSubscriberToMailchimp(email: string, firstName?: string): Promise<void> {
   if (!AUDIENCE_ID) return;
   try {
     const client = getClient();
     await client.lists.addListMember(AUDIENCE_ID, {
       email_address: email,
       status: "subscribed",
+      ...(firstName && { merge_fields: { FNAME: firstName } }),
     });
   } catch (err: unknown) {
     // Silently ignore "already subscribed" errors
