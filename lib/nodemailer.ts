@@ -89,17 +89,17 @@ const emailLayout = (content: string, title: string) => `
 
 // Email templates
 export const emailTemplates = {
-  subscription: (email: string) => ({
+  subscription: (email: string, firstName?: string) => ({
     subject: `Welcome to ${BRAND_NAME}!`,
     html: emailLayout(`
-      <h1>Welcome to the Community!</h1>
+      <h1>Welcome${firstName ? `, ${firstName}` : " to the Community"}!</h1>
       <p>Thank you for subscribing to ${BRAND_NAME}. We're thrilled to have you with us.</p>
       <p>You'll be the first to receive our latest updates, publishing tips, and exclusive insights from the world of books.</p>
       <div class="divider"></div>
       <p>If you have any questions, feel free to send an email to info@paperstery.com.</p>
       <p>Best regards,<br>The ${BRAND_NAME} Team</p>
     `, "Welcome to Paperstery"),
-    text: `Thank you for subscribing to ${BRAND_NAME}! Welcome to our community.`,
+    text: `${firstName ? `Hi ${firstName}, thank` : "Thank"} you for subscribing to ${BRAND_NAME}! Welcome to our community.`,
   }),
 
   contact: (name: string, message: string) => ({
